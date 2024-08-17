@@ -10,10 +10,10 @@ import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import java.util.Optional;
 
 
 @Component
@@ -42,12 +42,12 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
         // support parameter 에서 true 반환시 여기 실행
         // JwtAuthorizationFilter 에서 Context에 userId 넣어둠
         // 사용자 정보 셋팅
-        String username = webRequest.getUserPrincipal().getName();
-        if (username != null) {
-            Optional<User> userOptional = userRepository.findByUsername(username);
-            if (userOptional.isPresent()) {
-                return userOptional.get();
-            }
+        RequestAttributes requestContext = RequestContextHolder.getRequestAttributes();
+        Object userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
+
+        if (userId != null) {
+            return userRepository.findById(Long.parseLong(userId.toString()))
+                    .orElseThrow(() -> new ServiceLogicException(ErrorCode.NOT_FOUND_USER));
         }
         throw new ServiceLogicException(ErrorCode.NOT_FOUND_USER);
     }
