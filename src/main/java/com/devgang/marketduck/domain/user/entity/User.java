@@ -8,6 +8,9 @@ import com.devgang.marketduck.constant.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -25,7 +28,10 @@ public class User extends Auditable {
     private String password;
 
     @Column(nullable = false)
-    private String nickName;
+    private String nickname;
+
+    @Column(nullable = false)
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -57,5 +63,9 @@ public class User extends Auditable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
 }

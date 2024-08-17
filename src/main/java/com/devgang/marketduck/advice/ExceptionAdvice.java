@@ -42,15 +42,11 @@ public class ExceptionAdvice {
             return ErrorResponse.of(ErrorCode.ARGUMENT_MISMATCH_BAD_REQUEST);
         } else if (e instanceof ConstraintViolationException) {
             return ErrorResponse.of(((ConstraintViolationException) e).getConstraintViolations());
+        } else if (e instanceof HttpRequestMethodNotSupportedException) {
+            return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
         } else {
             return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
-
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public ErrorResponse handleMethodNotAllowedException(HttpRequestMethodNotSupportedException e) {
-        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(Exception.class)
