@@ -17,7 +17,7 @@ chmod 700 gradlew
 
 ./gradlew clean build
 
-BUILD_JAR=$(ls /home/sussa/Desktop/WorkSpace/marketduck/build/libs/web-server-0.0.1.jar)
+BUILD_JAR=$(ls /home/sussa/Desktop/WorkSpace/marketduck/build/libs/marketduck-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
 echo "> 현재 시간: $(date)" >> $LOG_PATH/deploy.log
