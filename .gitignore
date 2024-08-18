@@ -37,6 +37,7 @@ out/
 .vscode/
 
 src/main/resources/env.yml
+src/main/resources/.env
 
 
 /src/main/generated
