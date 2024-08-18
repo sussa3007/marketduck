@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the build file
-COPY /home/sussa/Desktop/WorkSpace/marketduck/*.jar /app/marketduck.jar
+COPY build/libs/*.jar /app/marketduck.jar
 
 # Expose the port the application runs on
 EXPOSE 8987

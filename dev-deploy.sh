@@ -15,6 +15,8 @@ git pull origin dev
 
 chmod 700 gradlew
 
+sudo chmod -R 755 .
+
 ./gradlew clean build
 
 BUILD_JAR=$(ls /home/sussa/Desktop/WorkSpace/marketduck/build/libs/marketduck-0.0.1-SNAPSHOT.jar)
