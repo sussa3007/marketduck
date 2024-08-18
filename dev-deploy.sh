@@ -51,10 +51,20 @@ CONTAINER_NAME=marketduck-app
 REDIS_CONTAINER_NAME=redis_boot
 REDIS_DEV_CONTAINER_NAME=redis_boot_dev
 
-# 기존 이미지 제거
+# 기존 컨테이너 종료 후 이미지 제거
 OLD_IMAGES=$(sudo docker images -aq --filter "reference=$CONTAINER_NAME")
 
 if [ ! -z "$OLD_IMAGES" ]; then
+  echo "Stopping and removing containers using images..."
+  CONTAINERS=$(sudo docker ps -q --filter "ancestor=$CONTAINER_NAME")
+
+  if [ ! -z "$CONTAINERS" ]; then
+    echo "Stopping running containers..."
+    sudo docker stop $CONTAINERS
+    echo "Removing stopped containers..."
+    sudo docker rm $CONTAINERS
+  fi
+
   echo "Removing old images..."
   sudo docker rmi -f $OLD_IMAGES
 else
