@@ -27,8 +27,8 @@ echo "> dev build 파일명: $DEV_JAR" >> $LOG_PATH/deploy.log
 echo "> dev build 파일 복사" >> $LOG_PATH/deploy.log
 
 EXIST_FILE=$DEPLOY_PATH$DEV_JAR
-sudo rm -f $EXIST_FILE
-sudo cp $BUILD_JAR $DEPLOY_PATH$DEV_JAR
+rm -f $EXIST_FILE
+cp $BUILD_JAR $DEPLOY_PATH$DEV_JAR
 
 echo "> dev 현재 실행중인 애플리케이션 pid 확인" >> $LOG_PATH/deploy.log
 CURRENT_PID=$(pgrep -fn $DEV_JAR)
