@@ -12,8 +12,6 @@ cd $BUILD || { echo "Failed to change directory to $BUILD"; exit 1; }
 # 스크립트 로그 파일이 없다면 생성
 mkdir -p $LOG_PATH
 
-git fetch --all
-git reset --hard origin/dev
 git checkout dev
 git pull origin dev
 
@@ -82,6 +80,13 @@ if [ "$(sudo docker ps -q -f name=$REDIS_DEV_CONTAINER_NAME)" ]; then
 fi
 
 echo "> Dev DEPLOY_JAR 배포" >> $LOG_PATH/deploy.log
+
+# 기존 이미지 제거
+OLD_IMAGES=$(sudo docker images -aq --filter "reference=CONTAINER_NAME")
+if [ ! -z "$OLD_IMAGES" ]; then
+  echo "Removing old images..."
+  sudo docker rmi -f $OLD_IMAGES
+fi
 
 # Docker Compose 빌드
 sudo docker-compose build

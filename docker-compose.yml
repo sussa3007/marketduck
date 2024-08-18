@@ -16,7 +16,7 @@ services:
       - app-network
 
   db:
-    image: mysql:8.0.26
+    image: mysql:8.0.32
     restart: always
     command:
       - --lower_case_table_names=1
