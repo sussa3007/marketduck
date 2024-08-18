@@ -15,6 +15,12 @@ services:
     networks:
       - app-network
 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   db:
     image: mysql:8.0.32
     restart: always
@@ -29,9 +35,15 @@ services:
       - .env
     volumes:
       - /home/sussa/temp/MYSQL:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # MySQL 초기화 파일 경로
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   redis:
     image: redis:latest
@@ -47,6 +59,12 @@ services:
     networks:
       - app-network
 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   redis-dev:
     image: redis:latest
     command: redis-server --port 6378
@@ -60,6 +78,12 @@ services:
       - "16378:6378"
     networks:
       - app-network
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   app-network:
