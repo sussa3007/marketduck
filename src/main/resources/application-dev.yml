@@ -29,8 +29,8 @@ spring:
     type: redis
   data:
     redis:
-      host: localhost
-      port: 16379
+      host: redis_boot_dev
+      port: 6378
 logging.level:
   org.hibernate.SQL: trace
   org:
