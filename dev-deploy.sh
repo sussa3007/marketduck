@@ -51,6 +51,13 @@ CONTAINER_NAME=marketduck-app
 REDIS_CONTAINER_NAME=redis_boot
 REDIS_DEV_CONTAINER_NAME=redis_boot_dev
 
+# 기존 이미지 제거
+OLD_IMAGES=$(sudo docker images -aq --filter "reference=CONTAINER_NAME")
+if [ ! -z "$OLD_IMAGES" ]; then
+  echo "Removing old images..."
+  sudo docker rmi -f $OLD_IMAGES
+fi
+
 # 기존 애플리케이션 컨테이너를 중지하고 제거
 if [ "$(sudo docker ps -q -f name=$CONTAINER_NAME)" ]; then
     echo "Stopping existing container..."
@@ -85,12 +92,7 @@ fi
 
 echo "> Dev DEPLOY_JAR 배포" >> $LOG_PATH/deploy.log
 
-# 기존 이미지 제거
-OLD_IMAGES=$(sudo docker images -aq --filter "reference=CONTAINER_NAME")
-if [ ! -z "$OLD_IMAGES" ]; then
-  echo "Removing old images..."
-  sudo docker rmi -f $OLD_IMAGES
-fi
+
 
 # Docker Compose 빌드
 sudo docker-compose build
