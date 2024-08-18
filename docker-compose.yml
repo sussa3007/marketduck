@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - D:\temp\MYSQL:/var/lib/mysql
+      - /home/sussa/temp/MYSQL:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql # MySQL 초기화 파일 경로
     networks:
       - app-network

@@ -7,41 +7,47 @@ DEV_JAR=marketduck-0.0.1-SNAPSHOT.jar
 LOG_PATH=/home/sussa/log/marketduck
 DEPLOY_PATH=/home/sussa/Desktop/WorkSpace/marketduck/
 
-cd $BUILD
+cd $BUILD || { echo "Failed to change directory to $BUILD"; exit 1; }
+
+# 스크립트 로그 파일이 없다면 생성
+mkdir -p $LOG_PATH
 
 git checkout dev
-
 git pull origin dev
 
 chmod 700 gradlew
-
 sudo chmod -R 755 .
+
+# MySQL 컨테이너 이름
+MYSQL_CONTAINER_NAME=mysql
+
+# MySQL 컨테이너가 실행 중인지 확인하고 실행되지 않은 경우 시작
+if [ ! "$(sudo docker ps -q -f name=$MYSQL_CONTAINER_NAME)" ]; then
+    echo "Starting MySQL container..."
+    sudo docker-compose up -d db
+    sleep 20  # 컨테이너가 완전히 시작될 때까지 대기
+fi
 
 ./gradlew clean build
 
 BUILD_JAR=$(ls /home/sussa/Desktop/WorkSpace/marketduck/build/libs/marketduck-0.0.1-SNAPSHOT.jar)
 
 echo "> 현재 시간: $(date)" >> $LOG_PATH/deploy.log
-
 echo "> dev build 파일명: $DEV_JAR" >> $LOG_PATH/deploy.log
-
 echo "> dev build 파일 복사" >> $LOG_PATH/deploy.log
 
-EXIST_FILE=$DEPLOY_PATH$DEV_JAR
+EXIST_FILE=$DEPLOY_PATH/$DEV_JAR
 sudo rm -f $EXIST_FILE
 sudo cp $BUILD_JAR $EXIST_FILE
 
 APP_NAME=marketduck
 CONTAINER_NAME=marketduck-app
 
-# MySQL 컨테이너 이름
-MYSQL_CONTAINER_NAME=mysql
-
 # Redis 컨테이너 이름
 REDIS_CONTAINER_NAME=redis_boot
 REDIS_DEV_CONTAINER_NAME=redis_boot_dev
 
-# Step 3: Stop and remove existing container if it exists
+# 기존 애플리케이션 컨테이너를 중지하고 제거
 if [ "$(sudo docker ps -q -f name=$CONTAINER_NAME)" ]; then
     echo "Stopping existing container..."
     sudo docker stop $CONTAINER_NAME
@@ -50,33 +56,33 @@ if [ "$(sudo docker ps -q -f name=$CONTAINER_NAME)" ]; then
 fi
 
 # 기존 MySQL 컨테이너를 중지하고 제거
-if [ "$(docker ps -q -f name=$MYSQL_CONTAINER_NAME)" ]; then
+if [ "$(sudo docker ps -q -f name=$MYSQL_CONTAINER_NAME)" ]; then
     echo "Stopping existing MySQL container..."
-    docker stop $MYSQL_CONTAINER_NAME
+    sudo docker stop $MYSQL_CONTAINER_NAME
     echo "Removing existing MySQL container..."
-    docker rm $MYSQL_CONTAINER_NAME
+    sudo docker rm $MYSQL_CONTAINER_NAME
 fi
 
 # 기존 Redis 컨테이너를 중지하고 제거
-if [ "$(docker ps -q -f name=$REDIS_CONTAINER_NAME)" ]; then
+if [ "$(sudo docker ps -q -f name=$REDIS_CONTAINER_NAME)" ]; then
     echo "Stopping existing Redis container..."
-    docker stop $REDIS_CONTAINER_NAME
+    sudo docker stop $REDIS_CONTAINER_NAME
     echo "Removing existing Redis container..."
-    docker rm $REDIS_CONTAINER_NAME
+    sudo docker rm $REDIS_CONTAINER_NAME
 fi
 
 # 기존 Redis Dev 컨테이너를 중지하고 제거
-if [ "$(docker ps -q -f name=$REDIS_DEV_CONTAINER_NAME)" ]; then
+if [ "$(sudo docker ps -q -f name=$REDIS_DEV_CONTAINER_NAME)" ]; then
     echo "Stopping existing Redis Dev container..."
-    docker stop $REDIS_DEV_CONTAINER_NAME
+    sudo docker stop $REDIS_DEV_CONTAINER_NAME
     echo "Removing existing Redis Dev container..."
-    docker rm $REDIS_DEV_CONTAINER_NAME
+    sudo docker rm $REDIS_DEV_CONTAINER_NAME
 fi
 
-echo "> Dev DEPLOY_JAR 배포"    >> $LOG_PATH/deploy.log
+echo "> Dev DEPLOY_JAR 배포" >> $LOG_PATH/deploy.log
 
-# Step 4: Build Docker image
+# Docker Compose 빌드
 sudo docker-compose build
 
-# Step 5: Run Docker containers using Docker Compose
+# 나머지 컨테이너를 Docker Compose을 사용하여 실행
 sudo docker-compose up -d
