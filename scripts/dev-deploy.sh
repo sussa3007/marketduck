@@ -46,4 +46,4 @@ DEPLOY_JAR=$DEPLOY_PATH$DEV_JAR
 
 echo "> Dev DEPLOY_JAR 배포"    >> $LOG_PATH/deploy.log
 
-nohup java -jar -Dspring.profiles.active=dev $DEPLOY_JAR >> $LOG_PATH/dev-runtime.log 2> $LOG_PATH/dev-runtime_err.log &
+sudo nohup java -jar -Dspring.profiles.active=dev $DEPLOY_JAR >> $LOG_PATH/dev-runtime.log 2> $LOG_PATH/dev-runtime_err.log &
