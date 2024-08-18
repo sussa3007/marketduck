@@ -32,7 +32,7 @@ sudo rm -f $EXIST_FILE
 sudo cp $BUILD_JAR $EXIST_FILE
 
 APP_NAME=marketduck
-CONTAINER_NAME=marketduck-container
+CONTAINER_NAME=marketduck-app
 # Step 3: Stop and remove existing container if it exists
 if [ "$(sudo docker ps -q -f name=$CONTAINER_NAME)" ]; then
     echo "Stopping existing container..."
