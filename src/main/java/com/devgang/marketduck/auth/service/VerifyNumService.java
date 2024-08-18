@@ -4,7 +4,7 @@ import com.devgang.marketduck.auth.entity.VerifyNumEntity;
 import com.devgang.marketduck.auth.repository.VerifyNumRepository;
 import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.exception.ServiceLogicException;
-import com.devgang.marketduck.openapi.auth.dto.VerifyNumDto;
+import com.devgang.marketduck.openapi.user.dto.VerifyNumDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

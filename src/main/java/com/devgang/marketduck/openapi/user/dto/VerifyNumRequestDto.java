@@ -1,4 +1,4 @@
-package com.devgang.marketduck.openapi.auth.dto;
+package com.devgang.marketduck.openapi.user.dto;
 
 
 import lombok.*;

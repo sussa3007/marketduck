@@ -1,4 +1,4 @@
-package com.devgang.marketduck.openapi.auth.dto;
+package com.devgang.marketduck.openapi.user.dto;
 
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.UserStatus;

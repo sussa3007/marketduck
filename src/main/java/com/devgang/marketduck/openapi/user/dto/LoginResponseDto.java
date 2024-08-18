@@ -1,4 +1,4 @@
-package com.devgang.marketduck.openapi.auth.dto;
+package com.devgang.marketduck.openapi.user.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
