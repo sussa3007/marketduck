@@ -12,6 +12,10 @@ cd $BUILD || { echo "Failed to change directory to $BUILD"; exit 1; }
 # 스크립트 로그 파일이 없다면 생성
 mkdir -p $LOG_PATH
 
+git fetch --all
+
+git reset --hard origin/dev
+
 git checkout dev
 git pull origin dev
 
