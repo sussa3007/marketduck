@@ -52,10 +52,13 @@ REDIS_CONTAINER_NAME=redis_boot
 REDIS_DEV_CONTAINER_NAME=redis_boot_dev
 
 # 기존 이미지 제거
-OLD_IMAGES=$(sudo docker images -aq --filter "reference=CONTAINER_NAME")
+OLD_IMAGES=$(sudo docker images -aq --filter "reference=$CONTAINER_NAME")
+
 if [ ! -z "$OLD_IMAGES" ]; then
   echo "Removing old images..."
   sudo docker rmi -f $OLD_IMAGES
+else
+  echo "No images found for reference: $CONTAINER_NAME"
 fi
 
 # 기존 애플리케이션 컨테이너를 중지하고 제거
