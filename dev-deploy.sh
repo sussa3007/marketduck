@@ -34,17 +34,11 @@ fi
 
 ./gradlew clean build
 
-BUILD_JAR=$(ls /home/sussa/Desktop/WorkSpace/marketduck/build/libs/marketduck-0.0.1-SNAPSHOT.jar)
 
 echo "> 현재 시간: $(date)" >> $LOG_PATH/deploy.log
 echo "> dev build 파일명: $DEV_JAR" >> $LOG_PATH/deploy.log
 echo "> dev build 파일 복사" >> $LOG_PATH/deploy.log
 
-EXIST_FILE=$DEPLOY_PATH/$DEV_JAR
-sudo rm -f $EXIST_FILE
-sudo cp $BUILD_JAR $EXIST_FILE
-
-APP_NAME=marketduck
 CONTAINER_NAME=marketduck-app
 
 # Redis 컨테이너 이름
@@ -71,13 +65,6 @@ else
   echo "No images found for reference: $CONTAINER_NAME"
 fi
 
-# 기존 애플리케이션 컨테이너를 중지하고 제거
-if [ "$(sudo docker ps -q -f name=$CONTAINER_NAME)" ]; then
-    echo "Stopping existing container..."
-    sudo docker stop $CONTAINER_NAME
-    echo "Removing existing container..."
-    sudo docker rm $CONTAINER_NAME
-fi
 
 # 기존 MySQL 컨테이너를 중지하고 제거
 if [ "$(sudo docker ps -q -f name=$MYSQL_CONTAINER_NAME)" ]; then
@@ -103,6 +90,23 @@ if [ "$(sudo docker ps -q -f name=$REDIS_DEV_CONTAINER_NAME)" ]; then
     sudo docker rm $REDIS_DEV_CONTAINER_NAME
 fi
 
+NGINX_CONTAINER_NAME=nginx_server
+# 기존 Nginx 컨테이너를 중지하고 제거
+if [ "$(sudo docker ps -q -f name=$NGINX_CONTAINER_NAME)" ]; then
+    echo "Stopping existing NGINX container..."
+    sudo docker stop $NGINX_CONTAINER_NAME
+    echo "Removing existing NGINX container..."
+    sudo docker rm $NGINX_CONTAINER_NAME
+fi
+
+CERBOT_CONTAINER_NAME=cerbot
+# 기존 cerbot 컨테이너를 중지하고 제거
+if [ "$(sudo docker ps -q -f name=$CERBOT_CONTAINER_NAME)" ]; then
+    echo "Stopping existing CERBOT container..."
+    sudo docker stop $CERBOT_CONTAINER_NAME
+    echo "Removing existing CERBOT container..."
+    sudo docker rm $CERBOT_CONTAINER_NAME
+fi
 echo "> Dev DEPLOY_JAR 배포" >> $LOG_PATH/deploy.log
 
 
