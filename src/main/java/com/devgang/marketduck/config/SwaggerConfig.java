@@ -50,7 +50,7 @@ public class SwaggerConfig {
                 .info(info)
                 .addSecurityItem(securityRequirement)
                 .components(components);
-        result.setServers(List.of(product, server, local));
+        result.setServers(List.of(server, product, local));
 
         return result;
     }
