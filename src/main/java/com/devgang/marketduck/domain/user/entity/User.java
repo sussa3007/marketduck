@@ -1,6 +1,7 @@
 package com.devgang.marketduck.domain.user.entity;
 
 
+import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.LoginType;
@@ -10,6 +11,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -36,6 +38,9 @@ public class User extends Auditable {
 
     @Column(nullable = true, unique = true)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private String profileImageUrl;
 
     /*
     * 인증 관련 체크
@@ -69,6 +74,8 @@ public class User extends Auditable {
     public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
         return User.builder()
                 .username(email)
+                .phoneNumber("")
+                .profileImageUrl("")
                 .nickname(nickName)
                 .password(password)
                 .loginType(loginType)
@@ -78,5 +85,11 @@ public class User extends Auditable {
                 .phoneVerified(false)
                 .roles(Authority.USER.getStringRole())
                 .build();
+    }
+
+    public User updateUser(UserPatchRequestDto dto) {
+        this.nickname = Optional.ofNullable(dto.getNickname()).orElse(this.nickname);
+        this.phoneNumber = Optional.ofNullable(dto.getPhoneNumber()).orElse(this.phoneNumber);
+        return this;
     }
 }

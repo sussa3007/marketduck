@@ -34,7 +34,7 @@ spring:
   data:
     redis:
       host: ${AWS_ELASTICACHE_END_POINT}
-      port: 16379
+      port: ${AWS_ELASTICACHE_PORT}
 logging.level:
   org.hibernate.SQL: trace
   org:

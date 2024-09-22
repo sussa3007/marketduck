@@ -31,8 +31,8 @@ spring:
     type: redis
   data:
     redis:
-      host: localhost
-      port: 16379
+      host: ${REDIS_LOCAL_HOST}
+      port: ${REDIS_LOCAL_PORT}
 logging.level:
   org.hibernate.SQL: debug
   org:

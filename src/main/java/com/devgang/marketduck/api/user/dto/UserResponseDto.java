@@ -23,6 +23,7 @@ public class UserResponseDto {
     private Long userId;
     private String nickname;
     private String username;
+    private String profileImageUrl;
     private String phoneNumber;
     private Boolean emailVerified;
     private Boolean phoneVerified;
@@ -42,6 +43,7 @@ public class UserResponseDto {
                 .nickname(user.getNickname())
                 .username(user.getUsername())
                 .phoneNumber(user.getPhoneNumber())
+                .profileImageUrl(user.getProfileImageUrl())
                 .emailVerified(user.getEmailVerified())
                 .phoneVerified(user.getPhoneVerified())
                 .userStatus(user.getUserStatus())

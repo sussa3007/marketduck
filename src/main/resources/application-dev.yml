@@ -29,8 +29,8 @@ spring:
     type: redis
   data:
     redis:
-      host: redis_boot_dev
-      port: 6378
+      host: ${REDIS_DEV_HOST}
+      port: ${REDIS_DEV_PORT}
 logging.level:
   org.hibernate.SQL: trace
   org:
