@@ -1,10 +1,11 @@
 package com.devgang.marketduck.auth.jwt;
 
 
+import com.devgang.marketduck.api.user.dto.UserResponseDto;
+import com.devgang.marketduck.auth.dto.RefreshDto;
 import com.devgang.marketduck.auth.service.RefreshService;
 import com.devgang.marketduck.auth.token.Token;
 import com.devgang.marketduck.constant.ErrorCode;
-import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.exception.ServiceLogicException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,6 +14,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -89,12 +91,11 @@ public class JwtTokenizer {
     /* user 매개변수를 받아 jwt 토큰을 생성 */
 
     public Token delegateToken(
-            User user
+            UserResponseDto user
     ) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
-        claims.put("username", user.getUsername());
-        claims.put("email", user.getEmail());
+        claims.put("email", user.getUsername());
         claims.put("roles", user.getRoles());
         String subject = user.getUsername();
         String base64SecretKey = encodeBase64SecretKey(getSecretKey());
@@ -113,6 +114,25 @@ public class JwtTokenizer {
             verifySignature(getJws(accessToken), base64SecretKey);
         } catch (ExpiredJwtException ee) {
             throw new ServiceLogicException(ErrorCode.EXPIRED_ACCESS_TOKEN);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /* Refresh Token 검증 */
+    public void verifyRefreshToken(
+            UserResponseDto user,
+            HttpServletResponse response
+    ) {
+        String base64SecretKey = encodeBase64SecretKey(getSecretKey());
+        try {
+            RefreshDto refreshToken = refreshService.getRefresh(user.getUsername());
+            if (refreshToken == null) {
+                throw new ServiceLogicException(ErrorCode.TOKEN_NOT_NULL);
+            }
+            verifySignature(refreshToken.getRefreshToken(), base64SecretKey);
+        } catch (ExpiredJwtException | ServiceLogicException ee) {
+            throw new ServiceLogicException(ErrorCode.EXPIRED_REFRESH_TOKEN);
         } catch (Exception e) {
             throw e;
         }

@@ -14,6 +14,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
 
+
+    @Override
+    public User saveUser(User user) {
+        return userJpaRepository.save(user);
+    }
+
     @Override
     public Optional<User> findById(Long id) {
         // UserJpaRepository를 사용하여 ID로 사용자 찾기
@@ -23,7 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findByEmail(String email) {
         // UserJpaRepository를 사용하여 이메일로 사용자 찾기
-        return userJpaRepository.findByEmail(email);
+        return userJpaRepository.findByUsername(email);
     }
 
     @Override

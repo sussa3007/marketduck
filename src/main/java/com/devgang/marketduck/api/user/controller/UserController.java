@@ -5,7 +5,7 @@ import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
-import com.devgang.marketduck.openapi.user.dto.EmailRequestDto;
+import com.devgang.marketduck.openapi.user.dto.PhoneVerifyRequestDto;
 import com.devgang.marketduck.openapi.user.dto.VerifyNumRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +51,8 @@ public class UserController implements UserControllerIfs{
     }
 
     @Override
-    @PostMapping("/verify-email")
-    public ResponseEntity<ResponseDto<?>> verifyEmailPost(EmailRequestDto requestDto) {
+    @PostMapping("/verify-phone")
+    public ResponseEntity<ResponseDto<?>> verifyPhonePost(PhoneVerifyRequestDto requestDto) {
         return null;
     }
 

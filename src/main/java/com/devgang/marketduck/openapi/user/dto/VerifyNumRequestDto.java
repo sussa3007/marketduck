@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class VerifyNumRequestDto {
 
-    private String email;
+    private String phoneNumber;
 
     private String verifyNum;
 

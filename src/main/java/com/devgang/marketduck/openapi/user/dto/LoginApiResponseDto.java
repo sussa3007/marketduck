@@ -1,8 +1,8 @@
 package com.devgang.marketduck.openapi.user.dto;
 
+import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.UserStatus;
-import com.devgang.marketduck.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,12 +39,12 @@ public class LoginApiResponseDto {
     private UserStatus userStatus;
 
 
-    public static LoginApiResponseDto of(String accessToken, User user) {
+    public static LoginApiResponseDto of(String accessToken, UserResponseDto user) {
         return LoginApiResponseDto.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
-                .email(user.getEmail())
+                .email(user.getUsername())
                 .accessToken(accessToken)
                 .authority(user.getAuthority())
                 .userStatus(user.getUserStatus())

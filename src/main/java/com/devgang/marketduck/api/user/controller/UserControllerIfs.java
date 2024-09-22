@@ -6,7 +6,7 @@ import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
-import com.devgang.marketduck.openapi.user.dto.EmailRequestDto;
+import com.devgang.marketduck.openapi.user.dto.PhoneVerifyRequestDto;
 import com.devgang.marketduck.openapi.user.dto.VerifyNumRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -99,14 +99,14 @@ public interface UserControllerIfs {
 
 
     // 회원 가입 이메일 인증 번호 발송 요청
-    @Operation(summary = "메일 인증번호 요청", description = "200 OK 응답 확인, 메일 인증번호 요청")
+    @Operation(summary = "휴대폰 번호 인증번호 요청", description = "200 OK 응답 확인, 휴대폰 번호 인증번호 요청")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답", content = {
                     @Content(mediaType = "application/json")
             })
     })
-    ResponseEntity<ResponseDto<?>> verifyEmailPost(
-            @RequestBody EmailRequestDto requestDto
+    ResponseEntity<ResponseDto<?>> verifyPhonePost(
+            @RequestBody PhoneVerifyRequestDto requestDto
     );
 
     @Operation(summary = "인증번호 검증 요청", description = "200 OK 응답 확인, 인증번호 검증 요청")

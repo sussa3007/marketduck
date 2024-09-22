@@ -30,11 +30,9 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    private String username;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = true, unique = true)
     private String phoneNumber;
@@ -68,4 +66,17 @@ public class User extends Auditable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
+        return User.builder()
+                .username(email)
+                .nickname(nickName)
+                .password(password)
+                .loginType(loginType)
+                .userStatus(UserStatus.WAIT_INFO)
+                .authority(Authority.USER)
+                .emailVerified(true)
+                .phoneVerified(false)
+                .roles(Authority.USER.getStringRole())
+                .build();
+    }
 }

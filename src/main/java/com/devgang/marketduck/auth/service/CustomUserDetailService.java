@@ -1,6 +1,8 @@
 package com.devgang.marketduck.auth.service;
 
 
+import com.devgang.marketduck.constant.ErrorCode;
+import com.devgang.marketduck.constant.UserStatus;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.exception.ServiceLogicException;
@@ -25,11 +27,12 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-//            User findUser = userService.findUserByUsername(username);
-//            userService.verifyUserStatus(findUser.getUserStatus());
-//            log.info("#### CustomUserDetailService loadUserByUsername()");
-//            return new UserDetail(findUser);
-            return null;
+            User findUser = userService.findUserByEmail(username);
+            if (findUser.getUserStatus().equals(UserStatus.INACTIVE)) {
+                throw new ServiceLogicException(ErrorCode.USER_INACTIVE);
+            }
+            log.info("#### CustomUserDetailService loadUserByUsername()");
+            return new UserDetail(findUser);
         } catch (ServiceLogicException e) {
             throw e;
         }

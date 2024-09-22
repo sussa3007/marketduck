@@ -1,5 +1,6 @@
 package com.devgang.marketduck.openapi.user.dto;
 
+import com.devgang.marketduck.constant.LoginType;
 import lombok.*;
 
 @Getter
@@ -11,6 +12,6 @@ public class SocialLoginDto {
 
     String oauthAccessToken;
 
-    String loginType;
+    LoginType loginType;
 
 }

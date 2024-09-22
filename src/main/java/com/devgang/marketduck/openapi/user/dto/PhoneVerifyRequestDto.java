@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailRequestDto {
+public class PhoneVerifyRequestDto {
 
-    private String email;
+    private String phoneNumber;
 }

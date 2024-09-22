@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -22,7 +23,6 @@ public class UserResponseDto {
     private Long userId;
     private String nickname;
     private String username;
-    private String email;
     private String phoneNumber;
     private Boolean emailVerified;
     private Boolean phoneVerified;
@@ -30,22 +30,24 @@ public class UserResponseDto {
     private Authority authority;
     private LoginType loginType;
 
+    private List<String> roles;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public UserResponseDto of(User user) {
+    public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .emailVerified(user.getEmailVerified())
                 .phoneVerified(user.getPhoneVerified())
                 .userStatus(user.getUserStatus())
                 .authority(user.getAuthority())
                 .loginType(user.getLoginType())
+                .roles(user.getRoles())
                 .build();
     }
 }
