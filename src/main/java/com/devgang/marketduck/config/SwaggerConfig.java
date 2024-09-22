@@ -23,7 +23,7 @@ public class SwaggerConfig {
         server.setUrl("https://marketduck.server-su.site");
         Server local = new Server();
         local.setDescription("local");
-        local.setUrl("http://localhost:8080");
+        local.setUrl("http://192.168.75.163:8987");
 
         Server product = new Server();
         product.setDescription("product");
