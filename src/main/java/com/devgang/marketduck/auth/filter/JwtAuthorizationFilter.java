@@ -3,7 +3,6 @@ package com.devgang.marketduck.auth.filter;
 
 import com.devgang.marketduck.auth.jwt.JwtTokenizer;
 import com.devgang.marketduck.auth.util.CustomAuthorityUtils;
-import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.exception.ServiceLogicException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -80,9 +79,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");
         List<String> rolesList = (List<String>) claims.get("roles");
-        if (username.equals("admin")) {
-            rolesList = Authority.ADMIN.getStringRole();
-        }
         List<GrantedAuthority> roles = authorityUtils.createAuthorities(rolesList);
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(username, null, roles);

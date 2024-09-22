@@ -89,7 +89,16 @@ public class User extends Auditable {
 
     public User updateUser(UserPatchRequestDto dto) {
         this.nickname = Optional.ofNullable(dto.getNickname()).orElse(this.nickname);
-        this.phoneNumber = Optional.ofNullable(dto.getPhoneNumber()).orElse(this.phoneNumber);
+        Optional<String> phNum = Optional.ofNullable(dto.getPhoneNumber());
+        if (phNum.isPresent()) {
+            this.phoneNumber = phNum.get();
+            this.phoneVerified = false;
+        }
+        Optional<Authority> authProperty = Optional.ofNullable(dto.getAuthority());
+        if (authProperty.isPresent()) {
+            this.authority = authProperty.get();
+            this.roles = authProperty.get().getStringRole();
+        }
         return this;
     }
 }

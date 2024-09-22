@@ -12,6 +12,7 @@ import com.devgang.marketduck.domain.user.repository.UserRepository;
 import com.devgang.marketduck.exception.ServiceLogicException;
 import com.devgang.marketduck.file.service.FileService;
 import com.devgang.marketduck.http.service.SocialHttpService;
+import com.devgang.marketduck.openapi.user.dto.LoginDto;
 import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,17 @@ public class UserService {
         return UserResponseDto.of(createOrVerifyUser(email, nickName, dto.getLoginType()));
     }
 
+    public UserResponseDto loginBasic(LoginDto dto) {
+        String username = dto.getUsername();
+        String password = dto.getPassword();
+        User findUser = findUserByEmail(username);
+        if (passwordEncoder.matches(password, findUser.getPassword())) {
+            return UserResponseDto.of(findUser);
+        } else {
+            throw new ServiceLogicException(ErrorCode.ACCESS_DENIED);
+        }
+    }
+
     public User createOrVerifyUser(String email, String nickName, LoginType loginType) {
         // 회원 가입 여부 검증 분기
         try {
@@ -121,6 +133,12 @@ public class UserService {
         User findUser = findUserByUserId(userId);
         User updateUser = findUser.updateUser(dto);
         return UserResponseDto.of(userRepository.saveUser(updateUser));
+    }
+
+    public void deleteUser(Long userId) {
+        User findUser = findUserByUserId(userId);
+        findUser.setUserStatus(UserStatus.INACTIVE);
+        userRepository.saveUser(findUser);
     }
 
 

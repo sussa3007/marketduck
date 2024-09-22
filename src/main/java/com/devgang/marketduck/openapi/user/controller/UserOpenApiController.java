@@ -8,6 +8,7 @@ import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.dto.Result;
 import com.devgang.marketduck.openapi.user.dto.LoginApiResponseDto;
+import com.devgang.marketduck.openapi.user.dto.LoginDto;
 import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,6 +38,15 @@ public class UserOpenApiController implements UserOpenApiControllerIfs{
         Token token = jwtTokenizer.delegateToken(user);
         return ResponseEntity.ok(ResponseDto.of(LoginApiResponseDto.of(token.getAccessToken(), user), Result.ok()));
     }
+
+    @Override
+    @PostMapping("/login/basic")
+    public ResponseEntity<ResponseDto<LoginApiResponseDto>> login(LoginDto loginDto, HttpServletResponse response) {
+        UserResponseDto user = userService.loginBasic(loginDto);
+        Token token = jwtTokenizer.delegateToken(user);
+        return ResponseEntity.ok(ResponseDto.of(LoginApiResponseDto.of(token.getAccessToken(), user), Result.ok()));
+    }
+
 
     @Override
     @GetMapping("/verify-user")

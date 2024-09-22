@@ -54,7 +54,8 @@ public class UserController implements UserControllerIfs{
     @Override
     @DeleteMapping("/{userId}")
     public ResponseEntity<ResponseDto<?>> deleteUser(Long userId, User user) {
-        return null;
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(ResponseDto.of(Result.ok()));
     }
 
     @Override

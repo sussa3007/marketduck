@@ -58,7 +58,14 @@ public interface UserControllerIfs {
             @PathVariable @Parameter(description = "회원의 식별자", required = true) Long userId
     );
 
-    @Operation(summary = "회원 정보 수정(개인, 관리자)", description = "회원 정보 수정 요청")
+    @Operation(summary = "회원 정보 수정(개인, 관리자)", description = """
+            - 회원 정보 수정 요청
+            - 수정하지 않는 필드 비워두면 됨
+            - 휴대폰 번호 수정 완료 후 인증 필요
+                - 번호 인증 완료된 계정 수정 시 FLOW
+                    - 번호 수정 요청 및 완료 -> 번호 인증 -> phoneVerified Field True 확인 필요
+                - 번호 인증 되지 않은 계정은 번호 수정 요청 하면됨
+           """)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답",
                     content = {@Content(mediaType = "application/json"

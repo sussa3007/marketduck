@@ -2,6 +2,7 @@ package com.devgang.marketduck.openapi.user.controller;
 
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.openapi.user.dto.LoginApiResponseDto;
+import com.devgang.marketduck.openapi.user.dto.LoginDto;
 import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +31,17 @@ public interface UserOpenApiControllerIfs {
     })
     ResponseEntity<ResponseDto<LoginApiResponseDto>> loginSocial(
             @RequestBody SocialLoginDto loginDto,
+            HttpServletResponse response
+    );
+
+    @Operation(summary = "일반 회원(임시 API)", description = "최고 관리자 로그인 하기위한 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "정상 응답", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))
+            })
+    })
+    ResponseEntity<ResponseDto<LoginApiResponseDto>> login(
+            @RequestBody LoginDto loginDto,
             HttpServletResponse response
     );
 
