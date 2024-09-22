@@ -33,7 +33,7 @@ public interface UserOpenApiControllerIfs {
             HttpServletResponse response
     );
 
-    @Operation(summary = "로그인 회원 검증 API", description = "토큰값을 가지고 회원 검증 요청 API, 토큰이 만료되지 않은 회원이라면 200 응답")
+    @Operation(summary = "로그인 회원 검증 API", description = "토큰값을 가지고 회원 검증 요청 API, 토큰이 만료되지 않은 회원이라면 200 응답, 헤더에 Authorization 토큰 값 있어야함")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))
