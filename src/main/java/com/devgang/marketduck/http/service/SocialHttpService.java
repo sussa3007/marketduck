@@ -68,6 +68,7 @@ public class SocialHttpService {
                 HttpEntity responseBody = response.getEntity();
                 String res = EntityUtils.toString(responseBody);
                 if (loginType.equals(LoginType.KAKAO)) {
+                    log.info("Kakao Email Account = {}", res);
                     JsonElement kakaoElement = JsonParser.parseString(res);
                     JsonElement kakaoAccount = kakaoElement.getAsJsonObject().get("kakao_account");
                     String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
