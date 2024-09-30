@@ -12,6 +12,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -74,7 +75,7 @@ public class User extends Auditable {
     public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
         return User.builder()
                 .username(email)
-                .phoneNumber("")
+                .phoneNumber(UUID.randomUUID().toString().substring(0, 8))
                 .profileImageUrl("")
                 .nickname(nickName)
                 .password(password)
