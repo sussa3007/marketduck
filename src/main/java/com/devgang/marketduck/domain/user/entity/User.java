@@ -6,13 +6,11 @@ import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.LoginType;
 import com.devgang.marketduck.constant.UserStatus;
+import com.devgang.marketduck.domain.feed.entity.Feed;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Setter
 @Getter
@@ -71,6 +69,15 @@ public class User extends Auditable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Feed> feeds = new LinkedHashSet<>();
+
+    public void addFeed(Feed feed) {
+        feeds.add(feed);
+    }
 
     public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
         return User.builder()
