@@ -22,7 +22,7 @@ public class GenreCategory extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long genreCategoryId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String genreCategoryName;
 
     // FeedGenreCategory 연관관계 설정

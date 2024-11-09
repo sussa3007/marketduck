@@ -1,9 +1,9 @@
-package com.devgang.marketduck.openapi.user.controller;
+package com.devgang.marketduck.api.openapi.user.controller;
 
+import com.devgang.marketduck.api.openapi.user.dto.LoginApiResponseDto;
+import com.devgang.marketduck.api.openapi.user.dto.LoginDto;
+import com.devgang.marketduck.api.openapi.user.dto.SocialLoginDto;
 import com.devgang.marketduck.dto.ResponseDto;
-import com.devgang.marketduck.openapi.user.dto.LoginApiResponseDto;
-import com.devgang.marketduck.openapi.user.dto.LoginDto;
-import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

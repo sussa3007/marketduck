@@ -1,4 +1,4 @@
-package com.devgang.marketduck.openapi.user.dto;
+package com.devgang.marketduck.api.openapi.user.dto;
 
 import com.devgang.marketduck.constant.LoginType;
 import lombok.*;

@@ -3,10 +3,12 @@ package com.devgang.marketduck.domain.feed.entity;
 
 import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.domain.image.entity.FeedImage;
 import com.devgang.marketduck.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public class Feed extends Auditable {
     private String title;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
@@ -38,13 +40,17 @@ public class Feed extends Auditable {
     @Column(nullable = false)
     private int viewCount;
 
+
+    @Column(nullable = false)
+    private int likeCount;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private FeedStatus feedStatus;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FeedFeedImage> feedFeedImages = new LinkedHashSet<>();
+    private Set<FeedImage> feedImages = new LinkedHashSet<>();
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,8 +69,9 @@ public class Feed extends Auditable {
     private Set<FeedGenreCategory> feedGenreCategories = new LinkedHashSet<>();
 
 
-    public void addFeedFeedImage(FeedFeedImage feedFeedImage) {
-        feedFeedImages.add(feedFeedImage);
+    public void addFeedImage(FeedImage feedImage) {
+        feedImages.add(feedImage);
+        feedImage.setFeed(this);
     }
 
     public void addUser(User user) {

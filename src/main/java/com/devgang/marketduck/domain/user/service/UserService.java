@@ -1,5 +1,7 @@
 package com.devgang.marketduck.domain.user.service;
 
+import com.devgang.marketduck.api.openapi.user.dto.LoginDto;
+import com.devgang.marketduck.api.openapi.user.dto.SocialLoginDto;
 import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.constant.AwsProperty;
@@ -12,8 +14,6 @@ import com.devgang.marketduck.domain.user.repository.UserRepository;
 import com.devgang.marketduck.exception.ServiceLogicException;
 import com.devgang.marketduck.file.service.FileService;
 import com.devgang.marketduck.http.service.SocialHttpService;
-import com.devgang.marketduck.openapi.user.dto.LoginDto;
-import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

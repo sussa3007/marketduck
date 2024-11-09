@@ -1,13 +1,13 @@
 package com.devgang.marketduck.api.user.controller;
 
 import com.devgang.marketduck.annotation.UserSession;
+import com.devgang.marketduck.api.openapi.user.dto.PhoneVerifyRequestDto;
+import com.devgang.marketduck.api.openapi.user.dto.VerifyNumRequestDto;
 import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
-import com.devgang.marketduck.openapi.user.dto.PhoneVerifyRequestDto;
-import com.devgang.marketduck.openapi.user.dto.VerifyNumRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -19,9 +19,9 @@ public class GoodsCategory extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String goodsCategoryId;
+    private Long goodsCategoryId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String goodsCategory;
 
     @ToString.Exclude

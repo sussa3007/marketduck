@@ -1,15 +1,15 @@
-package com.devgang.marketduck.openapi.user.controller;
+package com.devgang.marketduck.api.openapi.user.controller;
 
 
+import com.devgang.marketduck.api.openapi.user.dto.LoginApiResponseDto;
+import com.devgang.marketduck.api.openapi.user.dto.LoginDto;
+import com.devgang.marketduck.api.openapi.user.dto.SocialLoginDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.auth.jwt.JwtTokenizer;
 import com.devgang.marketduck.auth.token.Token;
 import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.dto.Result;
-import com.devgang.marketduck.openapi.user.dto.LoginApiResponseDto;
-import com.devgang.marketduck.openapi.user.dto.LoginDto;
-import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/open-api/user")
 @RequiredArgsConstructor
 @Slf4j
-public class UserOpenApiController implements UserOpenApiControllerIfs{
+public class UserOpenApiController implements UserOpenApiControllerIfs {
 
     private final JwtTokenizer jwtTokenizer;
 

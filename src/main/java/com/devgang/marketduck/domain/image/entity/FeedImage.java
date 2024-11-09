@@ -2,12 +2,9 @@ package com.devgang.marketduck.domain.image.entity;
 
 
 import com.devgang.marketduck.audit.Auditable;
-import com.devgang.marketduck.domain.feed.entity.FeedFeedImage;
+import com.devgang.marketduck.domain.feed.entity.Feed;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -28,11 +25,12 @@ public class FeedImage extends Auditable {
     @Column(nullable = false)
     private String fileUrl;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "feedImage", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FeedFeedImage> feedFeedImages = new LinkedHashSet<>();
+    @Column(nullable = false)
+    private int imageIndex;
 
-    public void addFeedFeedImage(FeedFeedImage feedFeedImage) {
-        feedFeedImages.add(feedFeedImage);
-    }
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "feed_id", nullable = false)
+    private Feed feed;
+
 }

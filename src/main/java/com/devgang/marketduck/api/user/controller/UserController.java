@@ -1,5 +1,7 @@
 package com.devgang.marketduck.api.user.controller;
 
+import com.devgang.marketduck.api.openapi.user.dto.PhoneVerifyRequestDto;
+import com.devgang.marketduck.api.openapi.user.dto.VerifyNumRequestDto;
 import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
@@ -7,8 +9,6 @@ import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.dto.Result;
-import com.devgang.marketduck.openapi.user.dto.PhoneVerifyRequestDto;
-import com.devgang.marketduck.openapi.user.dto.VerifyNumRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

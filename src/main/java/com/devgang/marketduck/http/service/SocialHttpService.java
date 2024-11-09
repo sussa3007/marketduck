@@ -1,9 +1,9 @@
 package com.devgang.marketduck.http.service;
 
+import com.devgang.marketduck.api.openapi.user.dto.SocialLoginDto;
 import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.constant.LoginType;
 import com.devgang.marketduck.exception.ServiceLogicException;
-import com.devgang.marketduck.openapi.user.dto.SocialLoginDto;
 import com.devgang.marketduck.utils.UrlCreateUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
