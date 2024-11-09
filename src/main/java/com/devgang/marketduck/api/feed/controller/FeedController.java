@@ -45,7 +45,7 @@ public class FeedController implements FeedControllerIfs{
 
     @Override
     @DeleteMapping("/{feedId}")
-    public ResponseEntity<ResponseDto<FeedDetailResponseDto>> deleteFeed(User user, Long feedId) {
+    public ResponseEntity<ResponseDto> deleteFeed(User user, Long feedId) {
         return null;
     }
 }

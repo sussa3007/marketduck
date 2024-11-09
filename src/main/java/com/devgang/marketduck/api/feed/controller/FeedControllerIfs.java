@@ -103,7 +103,7 @@ public interface FeedControllerIfs {
                     )
                     })
     })
-    ResponseEntity<ResponseDto<FeedDetailResponseDto>> deleteFeed(
+    ResponseEntity<ResponseDto> deleteFeed(
             @UserSession @Parameter(hidden = true) User user,
             @PathVariable Long feedId
     );
