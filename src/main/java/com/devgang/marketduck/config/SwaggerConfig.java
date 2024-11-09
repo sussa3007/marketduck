@@ -32,7 +32,11 @@ public class SwaggerConfig {
         Info info = new Info()
                 .version("v0.0.1")
                 .title("Market Duck API 명세서")
-                .description("Market Duck 백엔드 서버 API 명세서");
+                .description("""
+                        Market Duck 백엔드 서버 API 명세서\s
+                        /api/** -> Access Token Header Required\s
+                        /open-api/** -> No Access Token Required\s
+                       \s""");
 
         // SecuritySecheme명
         String jwtSchemeName = "JWT Access Token";
