@@ -27,12 +27,13 @@ public class FeedController implements FeedControllerIfs{
     @Override
     @PostMapping("/image/{feedId}")
     public ResponseEntity<ResponseDto<FeedImageResponseDto>> postFeedImage(Long feedId, MultipartFile[] multipartFile, User user) {
+        // todo 이미지 등록시 이미 등록된 이미지들이 있다면 인덱스 정렬 한다음 제일 마지막 인덱스 값으로 이미지 저장
         return null;
     }
 
     @Override
     @PatchMapping("/{feedId}/{index}")
-    public ResponseEntity<ResponseDto<FeedImageResponseDto>> patchFeedImage(Long feedId, Long index, MultipartFile[] multipartFile, User user) {
+    public ResponseEntity<ResponseDto<FeedImageResponseDto>> patchFeedImage(Long feedId, Long index, User user) {
         return null;
     }
 

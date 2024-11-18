@@ -62,7 +62,7 @@ public interface FeedControllerIfs {
     /*
      * Feed 사진 수정
      * */
-    @Operation(summary = "특정 Feed 사진 수정(회원,관리자)", description = "Feed Image 수정 특정 FeedImage 의 해당 Index 데이터만 수정됨")
+    @Operation(summary = "특정 Feed 사진 삭제(회원,관리자)", description = "Feed Image 삭제 특정 FeedImage 의 해당 Index 데이터만 삭제됨, 삭제 후 특정 피드의 이미지 리스트 인덱스 재정렬됨")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답",
                     content = {@Content(mediaType = "application/json"
@@ -73,7 +73,6 @@ public interface FeedControllerIfs {
     ResponseEntity<ResponseDto<FeedImageResponseDto>> patchFeedImage(
             @PathVariable Long feedId,
             @PathVariable Long index,
-            @RequestPart("file") MultipartFile[] multipartFile,
             @UserSession @Parameter(hidden = true) User user
     );
 

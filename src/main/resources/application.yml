@@ -3,8 +3,8 @@ server:
 spring:
   servlet:
     multipart:
-      max-file-size: 300MB
-      max-request-size: 300MB
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     url: ${MAIN_DB_URL}
     username: ${MAIN_DB_ID}
