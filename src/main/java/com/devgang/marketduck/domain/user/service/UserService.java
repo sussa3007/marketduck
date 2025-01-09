@@ -14,6 +14,7 @@ import com.devgang.marketduck.domain.user.repository.UserRepository;
 import com.devgang.marketduck.exception.ServiceLogicException;
 import com.devgang.marketduck.file.service.FileService;
 import com.devgang.marketduck.http.service.SocialHttpService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class UserService {
 
