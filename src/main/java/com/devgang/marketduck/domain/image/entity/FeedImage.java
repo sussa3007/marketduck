@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Getter
 @Entity
-@Table(name = "user_images")
+@Table(name = "feed_images")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

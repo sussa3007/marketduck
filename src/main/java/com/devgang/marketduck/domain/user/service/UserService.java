@@ -40,7 +40,7 @@ public class UserService {
     private final FileService fileService;
 
     public Page<UserResponseDto> findAllUser(int page) {
-        return userRepository.findAll(PageRequest.of(page, 10, Sort.by("createAt").descending()))
+        return userRepository.findAll(PageRequest.of(page, 10, Sort.by("createdAt").descending()))
                 .map(UserResponseDto::of);
     }
 
