@@ -33,8 +33,8 @@ spring:
     type: redis
   data:
     redis:
-      host: ${AWS_ELASTICACHE_END_POINT}
-      port: ${AWS_ELASTICACHE_PORT}
+      host: ${REDIS_DEV_HOST}
+      port: ${REDIS_DEV_PORT}
 logging.level:
   org.hibernate.SQL: trace
   org:
@@ -65,8 +65,8 @@ mail:
 cloud:
   aws:
     s3:
-      bucket: monthlyib
-      dir: /monthlyib-file
+      bucket: marketduck-dev
+      dir: /marketduck
     region:
       static: ap-northeast-2
     stack:

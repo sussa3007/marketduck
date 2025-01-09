@@ -36,7 +36,7 @@ public class FeedSimpleResponseDto {
 
     private String mainImageUrl;
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }

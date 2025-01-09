@@ -33,12 +33,13 @@ public class FeedDetailResponseDto {
     private String content;
 
     private int likeCount;
+    private int viewCount;
 
     private FeedStatus status;
 
     private List<FeedImageResponseDto> images;
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }

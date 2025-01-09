@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public abstract class Auditable {
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }

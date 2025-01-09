@@ -63,8 +63,8 @@ mail:
 cloud:
   aws:
     s3:
-      bucket: monthlyib
-      dir: /monthlyib-file
+      bucket: marketduck-dev
+      dir: /marketduck
     region:
       static: ap-northeast-2
     stack:
