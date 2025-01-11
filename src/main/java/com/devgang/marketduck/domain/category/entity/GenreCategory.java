@@ -32,4 +32,10 @@ public class GenreCategory extends Auditable {
     public void addFeedGenreCategory(FeedGenreCategory feedGenreCategory) {
         feedGenreCategories.add(feedGenreCategory);
     }
+    public static GenreCategory create(String genreCategoryName) {
+        return GenreCategory.builder()
+                .genreCategoryName(genreCategoryName)
+                .feedGenreCategories(new LinkedHashSet<>())
+                .build();
+    }
 }

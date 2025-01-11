@@ -24,4 +24,12 @@ public class CategoryResponseDto {
 
     public CategoryResponseDto() {
     }
+    public static CategoryResponseDto of(Long categoryId, String categoryName, CategoryType categoryType) {
+        return CategoryResponseDto.builder()
+                .categoryId(categoryId)
+                .categoryName(categoryName)
+                .categoryType(categoryType)
+                .build();
+    }
+
 }

@@ -30,4 +30,10 @@ public class GoodsCategory extends Auditable {
     public void addFeedGoodsCategory(FeedGoodsCategory feedGoodsCategory) {
         feedGoodsCategories.add(feedGoodsCategory);
     }
+    public static GoodsCategory create(String goodsCategoryName) {
+        return GoodsCategory.builder()
+                .goodsCategoryName(goodsCategoryName)
+                .feedGoodsCategories(new LinkedHashSet<>())
+                .build();
+    }
 }
