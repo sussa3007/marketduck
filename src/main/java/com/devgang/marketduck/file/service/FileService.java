@@ -240,4 +240,9 @@ public class FileService {
         }
         return "MSIE";
     }
+
+    public boolean isImageFile(MultipartFile file) {
+        String contentType = file.getContentType();
+        return contentType != null && contentType.startsWith("image/");
+    }
 }

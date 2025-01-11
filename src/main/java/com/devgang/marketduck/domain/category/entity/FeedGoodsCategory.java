@@ -1,8 +1,8 @@
-package com.devgang.marketduck.domain.feed.entity;
+package com.devgang.marketduck.domain.category.entity;
 
 
 import com.devgang.marketduck.audit.Auditable;
-import com.devgang.marketduck.domain.category.entity.GoodsCategory;
+import com.devgang.marketduck.domain.feed.entity.Feed;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +35,11 @@ public class FeedGoodsCategory extends Auditable {
     public void addGoodsCategory(GoodsCategory goodsCategory) {
         this.goodsCategory = goodsCategory;
         goodsCategory.addFeedGoodsCategory(this);
+    }
+    public static FeedGoodsCategory create(Feed feed, GoodsCategory goodsCategory) {
+        FeedGoodsCategory feedGoodsCategory = new FeedGoodsCategory();
+        feedGoodsCategory.addFeed(feed);
+        feedGoodsCategory.addGoodsCategory(goodsCategory);
+        return feedGoodsCategory;
     }
 }

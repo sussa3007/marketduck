@@ -2,6 +2,7 @@ package com.devgang.marketduck.api.feed.controller;
 
 
 import com.devgang.marketduck.annotation.UserSession;
+import com.devgang.marketduck.api.feed.dto.FeedImagePatchDto;
 import com.devgang.marketduck.api.openapi.feed.dto.*;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -31,6 +33,20 @@ public interface FeedControllerIfs {
     /*
     * Feed 등록
     * */
+
+    @Operation(summary = "전체 Feed 정보 요청(관리자 전용)", description = "전체 Feed 리스트 요청, 삭제된 데이터까지 모두 응답")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "정상 응답",
+                    content = {@Content(mediaType = "application/json"
+                            , schema = @Schema(implementation = FeedSimple.class)
+                    )
+                    })
+    })
+    ResponseEntity<PageResponseDto<List<FeedSimpleResponseDto>>> getFeedList(
+            @UserSession @Parameter(hidden = true) User user,
+            @ModelAttribute FeedSearchDto requestDto
+    );
+
     @Operation(summary = "Feed 생성(회원, 관리자)", description = "Feed 생성 요청")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답",
@@ -54,7 +70,7 @@ public interface FeedControllerIfs {
                     )
                     })
     })
-    ResponseEntity<ResponseDto<FeedImageResponseDto>> postFeedImage(
+    ResponseEntity<ResponseDto<FeedDetailResponseDto>> postFeedImage(
             @PathVariable Long feedId,
             @RequestPart("file") MultipartFile[] multipartFile,
             @UserSession @Parameter(hidden = true) User user
@@ -62,7 +78,7 @@ public interface FeedControllerIfs {
     /*
      * Feed 사진 수정
      * */
-    @Operation(summary = "특정 Feed 사진 삭제(회원,관리자)", description = "Feed Image 삭제 특정 FeedImage 의 해당 Index 데이터만 삭제됨, 삭제 후 특정 피드의 이미지 리스트 인덱스 재정렬됨")
+    @Operation(summary = "특정 Feed 사진 삭제(회원,관리자)", description = "Feed Image 삭제 특정 FeedImage 의 해당 Index 데이터들만 삭제됨, 삭제 후 특정 피드의 이미지 리스트 인덱스 재정렬됨")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답",
                     content = {@Content(mediaType = "application/json"
@@ -70,9 +86,8 @@ public interface FeedControllerIfs {
                     )
                     })
     })
-    ResponseEntity<ResponseDto<FeedImageResponseDto>> patchFeedImage(
-            @PathVariable Long feedId,
-            @PathVariable Long index,
+    ResponseEntity<ResponseDto<FeedDetailResponseDto>> patchFeedImage(
+            @RequestBody FeedImagePatchDto request,
             @UserSession @Parameter(hidden = true) User user
     );
 
@@ -95,7 +110,7 @@ public interface FeedControllerIfs {
     /*
     * Feed 삭제
     * */
-    @Operation(summary = "Feed 삭제(회원, 관리자)", description = "Feed 삭제 요청, Feed와 연괸된 모든 정보 삭제")
+    @Operation(summary = "Feed 삭제(관리자)", description = "Feed 삭제 요청, Feed와 연괸된 모든 정보 완전 삭제, 일반 삭제 상태 수정은 PATCH API 이용")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답",
                     content = {@Content(mediaType = "application/json"

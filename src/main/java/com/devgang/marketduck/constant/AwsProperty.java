@@ -8,6 +8,7 @@ public enum AwsProperty {
     // todo 디렉토리 이름 수정 필요
     STORAGE("storage/"),
     USER_IMAGE("user/image/"),
+    FEED_IMAGE("feed/image/"),
 
     ZIP_DIR_NAME("zip/");
 

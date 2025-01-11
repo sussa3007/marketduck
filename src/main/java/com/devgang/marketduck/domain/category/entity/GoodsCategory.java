@@ -1,7 +1,6 @@
 package com.devgang.marketduck.domain.category.entity;
 
 import com.devgang.marketduck.audit.Auditable;
-import com.devgang.marketduck.domain.feed.entity.FeedGoodsCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +21,7 @@ public class GoodsCategory extends Auditable {
     private Long goodsCategoryId;
 
     @Column(nullable = false, unique = true)
-    private String goodsCategory;
+    private String goodsCategoryName;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "goodsCategory", cascade = CascadeType.ALL, orphanRemoval = true)

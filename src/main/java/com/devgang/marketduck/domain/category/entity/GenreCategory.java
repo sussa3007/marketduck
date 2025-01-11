@@ -2,7 +2,6 @@ package com.devgang.marketduck.domain.category.entity;
 
 
 import com.devgang.marketduck.audit.Auditable;
-import com.devgang.marketduck.domain.feed.entity.FeedGenreCategory;
 import jakarta.persistence.*;
 import lombok.*;
 

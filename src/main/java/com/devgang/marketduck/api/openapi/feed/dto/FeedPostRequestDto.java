@@ -24,8 +24,8 @@ public class FeedPostRequestDto {
 
     private FeedStatus feedStatus;
 
-    private List<CategoryDto> feedGoodsCategories;
+    private List<CategoryDto> goodsCategories;
 
-    private List<CategoryDto> feedGenreCategories;
+    private List<CategoryDto> genreCategories;
 
 }

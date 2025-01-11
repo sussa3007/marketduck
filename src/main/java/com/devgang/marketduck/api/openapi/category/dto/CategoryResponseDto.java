@@ -1,14 +1,11 @@
 package com.devgang.marketduck.api.openapi.category.dto;
 
 import com.devgang.marketduck.constant.CategoryType;
-import lombok.AllArgsConstructor;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class CategoryResponseDto {
 
@@ -18,4 +15,13 @@ public class CategoryResponseDto {
 
     private CategoryType categoryType;
 
+    @QueryProjection
+    public CategoryResponseDto(Long categoryId, String categoryName, CategoryType categoryType) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryType = categoryType;
+    }
+
+    public CategoryResponseDto() {
+    }
 }

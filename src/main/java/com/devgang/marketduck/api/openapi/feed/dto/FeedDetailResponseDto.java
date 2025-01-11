@@ -2,7 +2,9 @@ package com.devgang.marketduck.api.openapi.feed.dto;
 
 import com.devgang.marketduck.api.openapi.category.dto.CategoryResponseDto;
 import com.devgang.marketduck.api.user.dto.UserSimpleResponseDto;
+import com.devgang.marketduck.constant.CategoryType;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.domain.feed.entity.Feed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,4 +44,33 @@ public class FeedDetailResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public static FeedDetailResponseDto of(Feed feed) {
+        return FeedDetailResponseDto.builder()
+                .feedId(feed.getFeedId())
+                .userInfo(UserSimpleResponseDto.of(feed.getUser()))
+                .genreCategory(feed.getFeedGenreCategories().stream()
+                        .map(category -> new CategoryResponseDto(category.getGenreCategory().getGenreCategoryId(),
+                                category.getGenreCategory().getGenreCategoryName(),
+                                CategoryType.GENRE))
+                        .toList())
+                .goodsCategory(feed.getFeedGoodsCategories().stream()
+                        .map(category -> new CategoryResponseDto(category.getGoodsCategory().getGoodsCategoryId(),
+                                category.getGoodsCategory().getGoodsCategoryName(),
+                                CategoryType.GOODS))
+                        .toList())
+                .title(feed.getTitle())
+                .price(feed.getPrice())
+                .content(feed.getContent())
+                .likeCount(feed.getLikeCount())
+                .viewCount(feed.getViewCount())
+                .status(feed.getFeedStatus())
+                .images(feed.getFeedImages().stream()
+                        .map(FeedImageResponseDto::of)
+                        .toList())
+                .createdAt(feed.getCreatedAt())
+                .updatedAt(feed.getUpdatedAt())
+                .build();
+    }
+    
 }

@@ -4,6 +4,7 @@ package com.devgang.marketduck.api.openapi.feed.controller;
 import com.devgang.marketduck.api.openapi.feed.dto.FeedDetailResponseDto;
 import com.devgang.marketduck.api.openapi.feed.dto.FeedSearchDto;
 import com.devgang.marketduck.api.openapi.feed.dto.FeedSimpleResponseDto;
+import com.devgang.marketduck.api.openapi.feed.dto.UserFeedSearchDto;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,8 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface FeedOpenApiControllerIfs {
                     })
     })
     ResponseEntity<PageResponseDto<List<FeedSimpleResponseDto>>> getFeedList(
-            @RequestBody FeedSearchDto requestDto
+            @ModelAttribute FeedSearchDto requestDto
             );
 
     /*
@@ -50,7 +51,7 @@ public interface FeedOpenApiControllerIfs {
                     })
     })
     ResponseEntity<PageResponseDto<List<FeedSimpleResponseDto>>> getFeedListByUser(
-            @PathVariable @Parameter(description = "User 식별자", required = true) Long userId
+            @ModelAttribute UserFeedSearchDto requestDto
     );
 
     /*

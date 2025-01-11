@@ -1,7 +1,7 @@
-package com.devgang.marketduck.domain.feed.entity;
+package com.devgang.marketduck.domain.category.entity;
 
 import com.devgang.marketduck.audit.Auditable;
-import com.devgang.marketduck.domain.category.entity.GenreCategory;
+import com.devgang.marketduck.domain.feed.entity.Feed;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,5 +34,12 @@ public class FeedGenreCategory extends Auditable {
     public void addGenreCategory(GenreCategory genreCategory) {
         this.genreCategory = genreCategory;
         genreCategory.addFeedGenreCategory(this);
+    }
+
+    public static FeedGenreCategory create(Feed feed, GenreCategory genreCategory) {
+        FeedGenreCategory feedGenreCategory = new FeedGenreCategory();
+        feedGenreCategory.addFeed(feed);
+        feedGenreCategory.addGenreCategory(genreCategory);
+        return feedGenreCategory;
     }
 }

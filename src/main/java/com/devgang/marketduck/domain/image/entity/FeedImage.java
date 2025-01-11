@@ -33,4 +33,7 @@ public class FeedImage extends Auditable {
     @JoinColumn(name = "feed_id", nullable = false)
     private Feed feed;
 
+    @Column(nullable = false)
+    private boolean isMain; // 메인 이미지 여부
+
 }
