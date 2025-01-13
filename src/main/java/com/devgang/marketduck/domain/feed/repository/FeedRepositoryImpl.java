@@ -5,6 +5,7 @@ import com.devgang.marketduck.api.openapi.feed.dto.FeedSearchDto;
 import com.devgang.marketduck.api.openapi.feed.dto.FeedSimpleResponseDto;
 import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import com.devgang.marketduck.domain.category.entity.QFeedGenreCategory;
 import com.devgang.marketduck.domain.category.entity.QFeedGoodsCategory;
 import com.devgang.marketduck.domain.category.entity.QGenreCategory;
@@ -84,6 +85,7 @@ public class FeedRepositoryImpl implements FeedRepository{
         List<Long> goodsIds = dto.getGoodsIds();
         String keyword = dto.getKeyword();
         FeedStatus status = dto.getStatus();
+        FeedType type = dto.getFeedType();
 
         JPAQuery<Feed> query = queryFactory.select(feed)
                 .from(feed)
@@ -115,13 +117,18 @@ public class FeedRepositoryImpl implements FeedRepository{
                     feed.feedStatus.eq(status)
             );
         }
+        if (type != null) {
+            query.where(
+                    feed.feedType.eq(type)
+            );
+        }
 
         if (!includeDeleted) {
             query.where(
                     feed.feedStatus.notIn(
                             FeedStatus.DELETED,
                             FeedStatus.DELETED_BY_ADMIN,
-                            FeedStatus.SALE_STOPPED
+                            FeedStatus.STOPPED
                     )
             );
         }
@@ -146,7 +153,7 @@ public class FeedRepositoryImpl implements FeedRepository{
                 feed.feedStatus.notIn(
                         FeedStatus.DELETED,
                         FeedStatus.DELETED_BY_ADMIN,
-                        FeedStatus.SALE_STOPPED
+                        FeedStatus.STOPPED
                 )
         );
         query.orderBy(feed.createdAt.desc());

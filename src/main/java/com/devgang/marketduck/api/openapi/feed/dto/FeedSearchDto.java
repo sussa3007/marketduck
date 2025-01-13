@@ -1,6 +1,7 @@
 package com.devgang.marketduck.api.openapi.feed.dto;
 
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,8 @@ public class FeedSearchDto {
     private String keyword;
 
     private FeedStatus status;
+
+    private FeedType feedType;
+
+
 }

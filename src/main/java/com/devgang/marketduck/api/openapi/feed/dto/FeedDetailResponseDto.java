@@ -4,6 +4,7 @@ import com.devgang.marketduck.api.openapi.category.dto.CategoryResponseDto;
 import com.devgang.marketduck.api.user.dto.UserSimpleResponseDto;
 import com.devgang.marketduck.constant.CategoryType;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import com.devgang.marketduck.domain.feed.entity.Feed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,8 @@ public class FeedDetailResponseDto {
 
     private FeedStatus status;
 
+    private FeedType feedType;
+
     private List<FeedImageResponseDto> images;
 
     private LocalDateTime createdAt;
@@ -65,6 +68,7 @@ public class FeedDetailResponseDto {
                 .likeCount(feed.getLikeCount())
                 .viewCount(feed.getViewCount())
                 .status(feed.getFeedStatus())
+                .feedType(feed.getFeedType())
                 .images(feed.getFeedImages().stream()
                         .map(FeedImageResponseDto::of)
                         .toList())

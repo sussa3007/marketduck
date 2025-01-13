@@ -130,6 +130,18 @@ public class UserService {
         }
         return UserResponseDto.of(userRepository.saveUser(findUser));
     }
+    public UserResponseDto deleteUserImage(Long userId) {
+        User findUser = findUserByUserId(userId);
+        List<UserImage> currentList = userRepository.findAllUserImages(findUser.getUserId());
+        if (!currentList.isEmpty()) {
+            currentList.forEach( m ->
+                    fileService.deleteAwsFile(m.getFileName(), AwsProperty.USER_IMAGE)
+            );
+        }
+        findUser.setProfileImageUrl("");
+        userRepository.deleteUserImage(userId);
+        return UserResponseDto.of(userRepository.saveUser(findUser));
+    }
 
     public UserResponseDto updateUser(Long userId, UserPatchRequestDto dto) {
         User findUser = findUserByUserId(userId);

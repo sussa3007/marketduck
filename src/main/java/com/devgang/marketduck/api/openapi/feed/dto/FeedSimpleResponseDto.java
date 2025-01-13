@@ -3,6 +3,7 @@ package com.devgang.marketduck.api.openapi.feed.dto;
 import com.devgang.marketduck.api.openapi.category.dto.CategoryResponseDto;
 import com.devgang.marketduck.constant.CategoryType;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import com.devgang.marketduck.domain.feed.entity.Feed;
 import com.devgang.marketduck.domain.image.entity.FeedImage;
 import com.querydsl.core.annotations.QueryProjection;
@@ -37,6 +38,8 @@ public class FeedSimpleResponseDto {
 
     private FeedStatus status;
 
+    private FeedType feedType;
+
     private String mainImageUrl;
 
     private LocalDateTime createdAt;
@@ -45,7 +48,7 @@ public class FeedSimpleResponseDto {
 
 
     @QueryProjection
-    public FeedSimpleResponseDto(Long feedId, List<CategoryResponseDto> genreCategory, List<CategoryResponseDto> goodsCategory, String title, BigDecimal price, String content, int viewCount, int likeCount, FeedStatus status, String mainImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FeedSimpleResponseDto(Long feedId, List<CategoryResponseDto> genreCategory, List<CategoryResponseDto> goodsCategory, String title, BigDecimal price, String content, int viewCount, int likeCount, FeedStatus status,FeedType feedType, String mainImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.feedId = feedId;
         this.genreCategory = genreCategory;
         this.goodsCategory = goodsCategory;
@@ -55,6 +58,7 @@ public class FeedSimpleResponseDto {
         this.viewCount = viewCount;
         this.likeCount = likeCount;
         this.status = status;
+        this.feedType = feedType;
         this.mainImageUrl = mainImageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -76,6 +80,7 @@ public class FeedSimpleResponseDto {
                 .viewCount(feed.getViewCount())
                 .likeCount(feed.getLikeCount())
                 .status(feed.getFeedStatus())
+                .feedType(feed.getFeedType())
                 .mainImageUrl(feed.getFeedImages().stream().filter(FeedImage::isMain).map(FeedImage::getFileUrl).findFirst().orElse(""))
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())

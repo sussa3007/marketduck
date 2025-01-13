@@ -184,7 +184,7 @@ public class FeedService {
         if (dto.getPrice() != null) {
             findFeed.setPrice(dto.getPrice());
         }
-        if (dto.getFeedStatus().equals(FeedStatus.SALE_STOPPED) || dto.getFeedStatus().equals(FeedStatus.DELETED_BY_ADMIN)) {
+        if (dto.getFeedStatus().equals(FeedStatus.STOPPED) || dto.getFeedStatus().equals(FeedStatus.DELETED_BY_ADMIN)) {
             if (user.getAuthority().equals(Authority.ADMIN)) {
                 findFeed.setFeedStatus(dto.getFeedStatus());
             } else {

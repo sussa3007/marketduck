@@ -4,11 +4,14 @@ import com.devgang.marketduck.api.openapi.user.dto.PhoneVerifyRequestDto;
 import com.devgang.marketduck.api.openapi.user.dto.VerifyNumRequestDto;
 import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
+import com.devgang.marketduck.constant.Authority;
+import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.dto.Result;
+import com.devgang.marketduck.exception.ServiceLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -67,6 +70,18 @@ public class UserController implements UserControllerIfs{
     ) {
         UserResponseDto response = userService.createOrUpdateUserImage(userId, multipartFile);
         return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
+    }
+
+    @Override
+    @DeleteMapping("/{userId}/profile-image")
+    public ResponseEntity<ResponseDto<UserResponseDto>> deleteUserImage(Long userId, User user) {
+        if (user.getUserId().equals(userId) || user.getAuthority().equals(Authority.ADMIN)) {
+            UserResponseDto response = userService.deleteUserImage(userId);
+            return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
+        } else {
+            throw new ServiceLogicException(ErrorCode.ACCESS_DENIED);
+        }
+
     }
 
     @Override

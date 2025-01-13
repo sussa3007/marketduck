@@ -104,6 +104,18 @@ public interface UserControllerIfs {
             @UserSession @Parameter(hidden = true) User user
     );
 
+    @Operation(summary = "회원 사진 파일 삭제(개인, 관리자)", description = "회원 사진 파일 삭제")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "정상 응답",
+                    content = {@Content(mediaType = "application/json"
+                            , schema = @Schema(implementation = UserResponse.class)
+                    )})
+    })
+    ResponseEntity<ResponseDto<UserResponseDto>> deleteUserImage(
+            @PathVariable @Parameter(description = "User 식별자", required = true) Long userId,
+            @UserSession @Parameter(hidden = true) User user
+    );
+
 
     // 회원 가입 이메일 인증 번호 발송 요청
     @Operation(summary = "휴대폰 번호 인증번호 요청", description = "200 OK 응답 확인, 휴대폰 번호 인증번호 요청")

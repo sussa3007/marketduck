@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public interface CategoryOpenApiControllerIfs {
                     })
     })
     ResponseEntity<PageResponseDto<List<CategoryResponseDto>>> getGoodsCategoryList(
-            @RequestBody CategorySearchDto requestDto
+            @ModelAttribute CategorySearchDto requestDto
     );
 
 

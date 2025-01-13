@@ -2,6 +2,7 @@ package com.devgang.marketduck.api.openapi.feed.dto;
 
 import com.devgang.marketduck.api.category.dto.CategoryDto;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,7 @@ public class FeedPostRequestDto {
     private List<CategoryDto> goodsCategories;
 
     private List<CategoryDto> genreCategories;
+
+    private FeedType feedType;
 
 }

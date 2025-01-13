@@ -4,6 +4,7 @@ package com.devgang.marketduck.domain.feed.entity;
 import com.devgang.marketduck.api.openapi.feed.dto.FeedPostRequestDto;
 import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.FeedStatus;
+import com.devgang.marketduck.constant.FeedType;
 import com.devgang.marketduck.domain.category.entity.FeedGenreCategory;
 import com.devgang.marketduck.domain.category.entity.FeedGoodsCategory;
 import com.devgang.marketduck.domain.image.entity.FeedImage;
@@ -51,6 +52,11 @@ public class Feed extends Auditable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private FeedStatus feedStatus;
+
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private FeedType feedType;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -100,7 +106,8 @@ public class Feed extends Auditable {
                 .content(dto.getContent())
                 .viewCount(0) // 초기 조회수 설정
                 .likeCount(0) // 초기 좋아요 수 설정
-                .feedStatus(FeedStatus.ON_SALE) // 초기 상태 설정
+                .feedStatus(FeedStatus.ON_SALE_OR_BUY) // 초기 상태 설정
+                .feedType(dto.getFeedType())
                 .feedImages(new LinkedHashSet<>())
                 .feedGoodsCategories(new LinkedHashSet<>())
                 .feedGenreCategories(new LinkedHashSet<>())

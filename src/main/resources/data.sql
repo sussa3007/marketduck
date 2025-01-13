@@ -43,12 +43,13 @@ insert into `feeds` (
     `view_count`,
     `like_count`,
     `feed_status`,
+    `feed_type`,
     `user_id`
 )
 values
-    ('abc123', 'Smartphone for Sale', 500.00, 'Selling a slightly used smartphone.', 10, 2, 'ON_SALE', 2),
-    ('def456', 'Mystery Book Bundle', 30.00, 'A collection of mystery books.', 5, 1, 'ON_SALE', 2),
-    ('ghi789', 'Winter Jacket', 70.00, 'Brand new winter jacket.', 8, 3, 'ON_SALE', 2)
+    ('abc123', 'Smartphone for Sale', 500.00, 'Selling a slightly used smartphone.', 10, 2, 'ON_SALE_OR_BUY', 'SALE',2),
+    ('def456', 'Mystery Book Bundle', 30.00, 'A collection of mystery books.', 5, 1, 'ON_SALE_OR_BUY', 'SALE',2),
+    ('ghi789', 'Winter Jacket', 70.00, 'Brand new winter jacket.', 8, 3, 'ON_SALE_OR_BUY','BUY', 2)
 ;
 
 insert into `feed_images` (
