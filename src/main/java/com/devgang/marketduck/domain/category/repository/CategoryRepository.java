@@ -2,10 +2,7 @@ package com.devgang.marketduck.domain.category.repository;
 
 import com.devgang.marketduck.api.openapi.category.dto.CategoryResponseDto;
 import com.devgang.marketduck.api.openapi.category.dto.CategorySearchDto;
-import com.devgang.marketduck.domain.category.entity.FeedGenreCategory;
-import com.devgang.marketduck.domain.category.entity.FeedGoodsCategory;
-import com.devgang.marketduck.domain.category.entity.GenreCategory;
-import com.devgang.marketduck.domain.category.entity.GoodsCategory;
+import com.devgang.marketduck.domain.category.entity.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -30,4 +27,12 @@ public interface CategoryRepository {
     void deleteGenreCategory(Long genreCategoryId);
     void deleteFeedGoodsCategory(Long feedGoodsCategoryId);
     void deleteFeedGenreCategory(Long feedGenreCategoryId);
+
+    UserGoodsCategory save(UserGoodsCategory userGoodsCategory);
+    UserGenreCategory save(UserGenreCategory userGenreCategory);
+    void deleteUserGoodsCategory(Long userGoodsCategoryId);
+    void deleteUserGenreCategory(Long userGenreCategoryId);
+
+    void deleteAllUserGoodsCategoryByUserId(Long userId);
+    void deleteAllUserGenreCategoryByUserId(Long userId);
 }

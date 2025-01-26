@@ -30,6 +30,17 @@ public class GoodsCategory extends Auditable {
     public void addFeedGoodsCategory(FeedGoodsCategory feedGoodsCategory) {
         feedGoodsCategories.add(feedGoodsCategory);
     }
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "goodsCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserGoodsCategory> userGoodsCategories = new LinkedHashSet<>();
+
+    public void addUserGoodsCategory(UserGoodsCategory userGoodsCategory) {
+        userGoodsCategories.add(userGoodsCategory);
+    }
+
+
+
     public static GoodsCategory create(String goodsCategoryName) {
         return GoodsCategory.builder()
                 .goodsCategoryName(goodsCategoryName)

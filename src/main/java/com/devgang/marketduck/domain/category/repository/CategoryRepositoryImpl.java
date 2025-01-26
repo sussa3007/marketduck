@@ -27,6 +27,10 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     private final GoodsCategoryJpaRepository goodsCategoryJpaRepository;
     private final FeedGoodsCategoryJpaRepository feedGoodsCategoryJpaRepository;
     private final FeedGenreCategoryJpaRepository feedGenreCategoryJpaRepository;
+    private final UserGoodsCategoryJpaRepository userGoodsCategoryJpaRepository;
+    private final UserGenreCategoryJpaRepository userGenreCategoryJpaRepository;
+
+
 
     QGoodsCategory goodsCategory = QGoodsCategory.goodsCategory;
     QGenreCategory genreCategory = QGenreCategory.genreCategory;
@@ -147,5 +151,36 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     @Override
     public void deleteFeedGenreCategory(Long feedGenreCategoryId) {
         feedGenreCategoryJpaRepository.deleteById(feedGenreCategoryId);
+    }
+
+    @Override
+    public UserGoodsCategory save(UserGoodsCategory userGoodsCategory) {
+        return userGoodsCategoryJpaRepository.save(userGoodsCategory);
+    }
+
+    @Override
+    public UserGenreCategory save(UserGenreCategory userGenreCategory) {
+        return userGenreCategoryJpaRepository.save(userGenreCategory);
+
+    }
+
+    @Override
+    public void deleteUserGoodsCategory(Long userGoodsCategoryId) {
+        userGoodsCategoryJpaRepository.deleteById(userGoodsCategoryId);
+    }
+
+    @Override
+    public void deleteUserGenreCategory(Long userGenreCategoryId) {
+        userGenreCategoryJpaRepository.deleteById(userGenreCategoryId);
+    }
+
+    @Override
+    public void deleteAllUserGoodsCategoryByUserId(Long userId) {
+        userGoodsCategoryJpaRepository.deleteByUser_UserId(userId);
+    }
+
+    @Override
+    public void deleteAllUserGenreCategoryByUserId(Long userId) {
+        userGenreCategoryJpaRepository.deleteByUser_UserId(userId);
     }
 }

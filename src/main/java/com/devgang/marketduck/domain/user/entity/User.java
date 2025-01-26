@@ -6,6 +6,8 @@ import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.LoginType;
 import com.devgang.marketduck.constant.UserStatus;
+import com.devgang.marketduck.domain.category.entity.UserGenreCategory;
+import com.devgang.marketduck.domain.category.entity.UserGoodsCategory;
 import com.devgang.marketduck.domain.feed.entity.Feed;
 import jakarta.persistence.*;
 import lombok.*;
@@ -78,6 +80,24 @@ public class User extends Auditable {
     public void addFeed(Feed feed) {
         feeds.add(feed);
     }
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserGoodsCategory> userGoodsCategories = new LinkedHashSet<>();
+
+    public void addUserGoodsCategory(UserGoodsCategory userGoodsCategory) {
+        userGoodsCategories.add(userGoodsCategory);
+    }
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserGenreCategory> userGenreCategories = new LinkedHashSet<>();
+
+    public void addUserGenreCategory(UserGenreCategory userGenreCategory) {
+        userGenreCategories.add(userGenreCategory);
+    }
+
+
 
     public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
         return User.builder()

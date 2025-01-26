@@ -32,6 +32,14 @@ public class GenreCategory extends Auditable {
     public void addFeedGenreCategory(FeedGenreCategory feedGenreCategory) {
         feedGenreCategories.add(feedGenreCategory);
     }
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "genreCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserGenreCategory> userGenreCategories = new LinkedHashSet<>();
+
+    public void addUserGenreCategory(UserGenreCategory userGenreCategory) {
+        userGenreCategories.add(userGenreCategory);
+    }
     public static GenreCategory create(String genreCategoryName) {
         return GenreCategory.builder()
                 .genreCategoryName(genreCategoryName)

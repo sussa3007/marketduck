@@ -8,6 +8,11 @@ import com.devgang.marketduck.constant.AwsProperty;
 import com.devgang.marketduck.constant.ErrorCode;
 import com.devgang.marketduck.constant.LoginType;
 import com.devgang.marketduck.constant.UserStatus;
+import com.devgang.marketduck.domain.category.entity.GenreCategory;
+import com.devgang.marketduck.domain.category.entity.GoodsCategory;
+import com.devgang.marketduck.domain.category.entity.UserGenreCategory;
+import com.devgang.marketduck.domain.category.entity.UserGoodsCategory;
+import com.devgang.marketduck.domain.category.repository.CategoryRepository;
 import com.devgang.marketduck.domain.image.entity.UserImage;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.domain.user.repository.UserRepository;
@@ -40,6 +45,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final FileService fileService;
+
+    private final CategoryRepository categoryRepository;
 
     public Page<UserResponseDto> findAllUser(int page) {
         return userRepository.findAll(PageRequest.of(page, 10, Sort.by("createdAt").descending()))
@@ -146,6 +153,25 @@ public class UserService {
     public UserResponseDto updateUser(Long userId, UserPatchRequestDto dto) {
         User findUser = findUserByUserId(userId);
         User updateUser = findUser.updateUser(dto);
+        //TODO 온보딩 카테고리 매핑 필요
+        List<Long> goodsCategory = dto.getGoodsCategory();
+        List<Long> genreCategory = dto.getGenreCategory();
+        if (goodsCategory != null && !goodsCategory.isEmpty()) {
+            categoryRepository.deleteAllUserGoodsCategoryByUserId(userId);
+            goodsCategory.forEach(categoryId -> {
+                GoodsCategory findGoodsCategory = categoryRepository.findOneByGoodsCategoryId(categoryId);
+                UserGoodsCategory userGoodsCategory = UserGoodsCategory.create(updateUser, findGoodsCategory);
+                categoryRepository.save(userGoodsCategory);
+            });
+        }
+        if (genreCategory != null && !genreCategory.isEmpty()) {
+            categoryRepository.deleteAllUserGenreCategoryByUserId(userId);
+            genreCategory.forEach(categoryId -> {
+                GenreCategory findGenreCategory = categoryRepository.findOneByGenreCategoryId(categoryId);
+                UserGenreCategory userGenreCategory = UserGenreCategory.create(updateUser, findGenreCategory);
+                categoryRepository.save(userGenreCategory);
+            });
+        }
         return UserResponseDto.of(userRepository.saveUser(updateUser));
     }
 
