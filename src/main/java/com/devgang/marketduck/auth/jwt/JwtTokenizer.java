@@ -78,7 +78,7 @@ public class JwtTokenizer {
         Key key = getKeyFromBase64EncodedSecretKey(base64EncodedSecretKey);
 
         return new Token(
-                "Bearer " + Jwts.builder()
+                Jwts.builder()
                         .setClaims(claims)
                         .setSubject(subject)
                         .setIssuedAt(Calendar.getInstance().getTime())
