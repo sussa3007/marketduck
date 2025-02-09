@@ -138,21 +138,21 @@ public class FeedService {
         Feed findFeed = feedRepository.findFeedById(feedId);
         Set<FeedImage> feedImages = findFeed.getFeedImages();
 
-        // 2. 삭제할 이미지 처리
-        feedImages.stream()
+        // 2. 삭제할 이미지 미리 수집 후 처리
+        List<FeedImage> imagesToRemove = feedImages.stream()
                 .filter(feedImage -> index.contains(feedImage.getImageIndex()))
-                .forEach(feedImage -> {
-                    // 2-1. 연관 관계에서 제거
-                    findFeed.getFeedImages().remove(feedImage);
+                .toList();  // ✅ 안전하게 목록을 먼저 수집
 
-                    // 2-2. 파일 삭제 (예: AWS S3)
-                    fileService.deleteAwsFile(feedImage.getFileName(), AwsProperty.FEED_IMAGE);
-                });
+        // 3. 연관 관계에서 안전하게 제거
+        imagesToRemove.forEach(feedImage -> {
+            findFeed.getFeedImages().remove(feedImage);
+            fileService.deleteAwsFile(feedImage.getFileName(), AwsProperty.FEED_IMAGE);
+        });
 
-        // 3. DB에서 삭제 처리
+        // 4. DB에서 삭제 처리
         feedImageJpaRepository.deleteAllByFeed_FeedIdAndImageIndexIn(feedId, index);
 
-        // 4. 남은 이미지 인덱스 재설정
+        // 5. 남은 이미지 인덱스 재설정
         List<FeedImage> remainingImages = feedImageJpaRepository.findAllByFeed_FeedIdOrderByImageIndexAsc(feedId);
         for (int i = 0; i < remainingImages.size(); i++) {
             FeedImage image = remainingImages.get(i);
@@ -160,7 +160,7 @@ public class FeedService {
             feedImageJpaRepository.save(image); // 변경 사항 저장
         }
 
-        // 5. Feed 저장 후 DTO 반환
+        // 6. Feed 저장 후 DTO 반환
         Feed feed = feedRepository.saveFeed(findFeed);
         return FeedDetailResponseDto.of(feed);
     }
