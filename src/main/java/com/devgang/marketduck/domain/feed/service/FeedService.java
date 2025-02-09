@@ -156,6 +156,11 @@ public class FeedService {
         List<FeedImage> remainingImages = feedImageJpaRepository.findAllByFeed_FeedIdOrderByImageIndexAsc(feedId);
         for (int i = 0; i < remainingImages.size(); i++) {
             FeedImage image = remainingImages.get(i);
+            if (i == 0) {
+                image.setMain(true);
+            } else {
+                image.setMain(false);
+            }
             image.setImageIndex(i); // 새로운 인덱스 설정
             feedImageJpaRepository.save(image); // 변경 사항 저장
         }
