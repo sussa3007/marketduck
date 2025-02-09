@@ -172,6 +172,9 @@ public class UserService {
                 categoryRepository.save(userGenreCategory);
             });
         }
+        if (updateUser.getUserStatus().equals(UserStatus.WAIT_INFO)) {
+            updateUser.setUserStatus(UserStatus.ACTIVE);
+        }
         return UserResponseDto.of(userRepository.saveUser(updateUser));
     }
 
