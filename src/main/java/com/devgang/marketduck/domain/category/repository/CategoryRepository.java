@@ -27,6 +27,8 @@ public interface CategoryRepository {
     void deleteGenreCategory(Long genreCategoryId);
     void deleteFeedGoodsCategory(Long feedGoodsCategoryId);
     void deleteFeedGenreCategory(Long feedGenreCategoryId);
+    void deleteAllFeedGoodsCategoryByFeedId(Long feedId);
+    void deleteAllFeedGenreCategoryByFeedId(Long feedId);
 
     UserGoodsCategory save(UserGoodsCategory userGoodsCategory);
     UserGenreCategory save(UserGenreCategory userGenreCategory);

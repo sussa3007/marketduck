@@ -154,6 +154,16 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     }
 
     @Override
+    public void deleteAllFeedGoodsCategoryByFeedId(Long feedId) {
+        feedGoodsCategoryJpaRepository.deleteAllByFeed_FeedId(feedId);
+    }
+
+    @Override
+    public void deleteAllFeedGenreCategoryByFeedId(Long feedId) {
+        feedGenreCategoryJpaRepository.deleteAllByFeed_FeedId(feedId);
+    }
+
+    @Override
     public UserGoodsCategory save(UserGoodsCategory userGoodsCategory) {
         return userGoodsCategoryJpaRepository.save(userGoodsCategory);
     }

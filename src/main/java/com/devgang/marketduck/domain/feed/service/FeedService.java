@@ -198,6 +198,7 @@ public class FeedService {
         if (dto.getGenreCategories() != null && !dto.getGenreCategories().isEmpty()) {
             // 기존 장르 카테고리 제거
             findFeed.getFeedGenreCategories().clear();
+            categoryRepository.deleteAllFeedGenreCategoryByFeedId(feedId);
 
             // 새로운 장르 카테고리 추가
             categoryRepository.findAllByGenreCategoryIdIn(dto.getGenreCategories().stream().map(CategoryDto::getCategoryId).toList())
@@ -210,6 +211,7 @@ public class FeedService {
         if (dto.getGoodsCategories() != null && !dto.getGoodsCategories().isEmpty()) {
             // 기존 상품 카테고리 제거
             findFeed.getFeedGoodsCategories().clear();
+            categoryRepository.deleteAllFeedGoodsCategoryByFeedId(feedId);
 
             // 새로운 상품 카테고리 추가
             categoryRepository.findAllByGoodsCategoryIdIn(dto.getGoodsCategories().stream().map(CategoryDto::getCategoryId).toList())
