@@ -14,6 +14,7 @@ import com.devgang.marketduck.domain.category.entity.UserGenreCategory;
 import com.devgang.marketduck.domain.category.entity.UserGoodsCategory;
 import com.devgang.marketduck.domain.category.repository.CategoryRepository;
 import com.devgang.marketduck.domain.image.entity.UserImage;
+import com.devgang.marketduck.domain.user.dto.UserDetailResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.domain.user.repository.UserRepository;
 import com.devgang.marketduck.exception.ServiceLogicException;
@@ -56,6 +57,12 @@ public class UserService {
     public UserResponseDto findUser(Long userId) {
         return UserResponseDto.of(userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceLogicException(ErrorCode.NOT_FOUND_USER)));
+    }
+
+    public UserDetailResponseDto findUserDetail(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceLogicException(ErrorCode.NOT_FOUND_USER));
+        return UserDetailResponseDto.from(user);
     }
 
     public UserResponseDto findUser(String email) {
@@ -123,9 +130,7 @@ public class UserService {
         User findUser = findUserByUserId(userId);
         List<UserImage> currentList = userRepository.findAllUserImages(userId);
         if (!currentList.isEmpty()) {
-            currentList.forEach( m ->
-                    fileService.deleteAwsFile(m.getFileName(), AwsProperty.USER_IMAGE)
-            );
+            currentList.forEach(m -> fileService.deleteAwsFile(m.getFileName(), AwsProperty.USER_IMAGE));
         }
         userRepository.deleteUserImage(userId);
         for (MultipartFile file : files) {
@@ -137,13 +142,12 @@ public class UserService {
         }
         return UserResponseDto.of(userRepository.saveUser(findUser));
     }
+
     public UserResponseDto deleteUserImage(Long userId) {
         User findUser = findUserByUserId(userId);
         List<UserImage> currentList = userRepository.findAllUserImages(findUser.getUserId());
         if (!currentList.isEmpty()) {
-            currentList.forEach( m ->
-                    fileService.deleteAwsFile(m.getFileName(), AwsProperty.USER_IMAGE)
-            );
+            currentList.forEach(m -> fileService.deleteAwsFile(m.getFileName(), AwsProperty.USER_IMAGE));
         }
         findUser.setProfileImageUrl("");
         userRepository.deleteUserImage(userId);
@@ -153,7 +157,7 @@ public class UserService {
     public UserResponseDto updateUser(Long userId, UserPatchRequestDto dto) {
         User findUser = findUserByUserId(userId);
         User updateUser = findUser.updateUser(dto);
-        //TODO 온보딩 카테고리 매핑 필요
+        // TODO 온보딩 카테고리 매핑 필요
         List<Long> goodsCategory = dto.getGoodsCategory();
         List<Long> genreCategory = dto.getGenreCategory();
         if (goodsCategory != null && !goodsCategory.isEmpty()) {
@@ -183,6 +187,5 @@ public class UserService {
         findUser.setUserStatus(UserStatus.INACTIVE);
         userRepository.saveUser(findUser);
     }
-
 
 }

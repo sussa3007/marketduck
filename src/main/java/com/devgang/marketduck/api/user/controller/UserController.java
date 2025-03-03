@@ -6,6 +6,7 @@ import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.api.user.dto.UserResponseDto;
 import com.devgang.marketduck.constant.Authority;
 import com.devgang.marketduck.constant.ErrorCode;
+import com.devgang.marketduck.domain.user.dto.UserDetailResponseDto;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.domain.user.service.UserService;
 import com.devgang.marketduck.dto.PageResponseDto;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 @Slf4j
-public class UserController implements UserControllerIfs{
+public class UserController implements UserControllerIfs {
 
     private final UserService userService;
 
@@ -43,13 +44,18 @@ public class UserController implements UserControllerIfs{
         return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
     }
 
+    @GetMapping("/{userId}/detail")
+    public ResponseEntity<ResponseDto<UserDetailResponseDto>> getUserDetail(@PathVariable Long userId) {
+        UserDetailResponseDto response = userService.findUserDetail(userId);
+        return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
+    }
+
     @Override
     @PatchMapping("/{userId}")
     public ResponseEntity<ResponseDto<UserResponseDto>> patchUser(
             Long userId,
             UserPatchRequestDto requestDto,
-            User user
-    ) {
+            User user) {
         UserResponseDto response = userService.updateUser(userId, requestDto);
         return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
     }
@@ -66,8 +72,7 @@ public class UserController implements UserControllerIfs{
     public ResponseEntity<ResponseDto<UserResponseDto>> postUserImage(
             Long userId,
             MultipartFile[] multipartFile,
-            User user
-    ) {
+            User user) {
         UserResponseDto response = userService.createOrUpdateUserImage(userId, multipartFile);
         return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
     }
