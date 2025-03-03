@@ -25,7 +25,7 @@ public class CategoryOpenApiController implements CategoryOpenApiControllerIfs{
 
     @Override
     @GetMapping
-    public ResponseEntity<PageResponseDto<List<CategoryResponseDto>>> getGoodsCategoryList(CategorySearchDto requestDto) {
+    public ResponseEntity<PageResponseDto<List<CategoryResponseDto>>> getCategoryList(CategorySearchDto requestDto) {
         Page<CategoryResponseDto> response = categoryService.findAll(requestDto);
         return ResponseEntity.ok(PageResponseDto.of(response, response.getContent(), Result.ok()));
     }

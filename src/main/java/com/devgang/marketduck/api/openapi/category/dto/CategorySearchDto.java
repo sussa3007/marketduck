@@ -20,4 +20,7 @@ public class CategorySearchDto {
 
     private CategoryType categoryType;
 
+    // 인기순 여부
+    private boolean isPopular;
+
 }

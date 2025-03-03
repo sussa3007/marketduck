@@ -5,7 +5,10 @@ import com.devgang.marketduck.api.openapi.category.dto.CategorySearchDto;
 import com.devgang.marketduck.api.openapi.category.dto.QCategoryResponseDto;
 import com.devgang.marketduck.constant.CategoryType;
 import com.devgang.marketduck.domain.category.entity.*;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CategoryRepositoryImpl implements CategoryRepository{
+public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -30,13 +33,12 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     private final UserGoodsCategoryJpaRepository userGoodsCategoryJpaRepository;
     private final UserGenreCategoryJpaRepository userGenreCategoryJpaRepository;
 
-
-
     QGoodsCategory goodsCategory = QGoodsCategory.goodsCategory;
     QGenreCategory genreCategory = QGenreCategory.genreCategory;
     QFeedGoodsCategory feedGoodsCategory = QFeedGoodsCategory.feedGoodsCategory;
     QFeedGenreCategory feedGenreCategory = QFeedGenreCategory.feedGenreCategory;
-
+    QUserGoodsCategory userGoodsCategory = QUserGoodsCategory.userGoodsCategory;
+    QUserGenreCategory userGenreCategory = QUserGenreCategory.userGenreCategory;
 
     @Override
     public Page<CategoryResponseDto> findAll(CategorySearchDto dto) {
@@ -44,32 +46,59 @@ public class CategoryRepositoryImpl implements CategoryRepository{
         CategoryType categoryType = dto.getCategoryType();
         int size = dto.getSize();
         int page = dto.getPage();
+        boolean isPopular = dto.isPopular();
 
         // 1. Pageable 설정
         Pageable pageable = PageRequest.of(page, size);
 
         // 2. QueryDSL 쿼리 빌드
-        JPAQuery<CategoryResponseDto> query = queryFactory.select(new QCategoryResponseDto(
-                        categoryType == CategoryType.GENRE
-                                ? genreCategory.genreCategoryId
-                                : goodsCategory.goodsCategoryId,
-                        categoryType == CategoryType.GENRE
-                                ? genreCategory.genreCategoryName
-                                : goodsCategory.goodsCategoryName,
-                        Expressions.constant(categoryType) // CategoryType 설정
-                ))
-                .from(categoryType == CategoryType.GENRE ? genreCategory : goodsCategory);
+        JPAQuery<CategoryResponseDto> query;
 
-        // 3. 조건 설정
-        if (categoryName != null && !categoryName.isEmpty()) {
-            query.where(
-                    categoryType == CategoryType.GENRE
-                            ? genreCategory.genreCategoryName.containsIgnoreCase(categoryName)
-                            : goodsCategory.goodsCategoryName.containsIgnoreCase(categoryName)
-            );
+        if (categoryType == CategoryType.GENRE) {
+            // 장르 카테고리의 경우
+            query = queryFactory.select(new QCategoryResponseDto(
+                    genreCategory.genreCategoryId,
+                    genreCategory.genreCategoryName,
+                    Expressions.constant(categoryType),
+                    userGenreCategory.count()))
+                    .from(genreCategory)
+                    .leftJoin(userGenreCategory)
+                    .on(genreCategory.genreCategoryId.eq(userGenreCategory.genreCategory.genreCategoryId))
+                    .groupBy(genreCategory.genreCategoryId);
+
+            // 검색 조건 추가
+            if (categoryName != null && !categoryName.isEmpty()) {
+                query.where(genreCategory.genreCategoryName.containsIgnoreCase(categoryName));
+            }
+
+            // 인기순 정렬
+            if (isPopular) {
+                query.orderBy(userGenreCategory.count().desc());
+            }
+        } else {
+            // 상품 카테고리의 경우
+            query = queryFactory.select(new QCategoryResponseDto(
+                    goodsCategory.goodsCategoryId,
+                    goodsCategory.goodsCategoryName,
+                    Expressions.constant(categoryType),
+                    userGoodsCategory.count()))
+                    .from(goodsCategory)
+                    .leftJoin(userGoodsCategory)
+                    .on(goodsCategory.goodsCategoryId.eq(userGoodsCategory.goodsCategory.goodsCategoryId))
+                    .groupBy(goodsCategory.goodsCategoryId);
+
+            // 검색 조건 추가
+            if (categoryName != null && !categoryName.isEmpty()) {
+                query.where(goodsCategory.goodsCategoryName.containsIgnoreCase(categoryName));
+            }
+
+            // 인기순 정렬
+            if (isPopular) {
+                query.orderBy(userGoodsCategory.count().desc());
+            }
         }
 
-        // 4. 페이징 처리
+        // 3. 페이징 처리
         long total = query.fetchCount();
         List<CategoryResponseDto> content = query
                 .offset(pageable.getOffset())
@@ -114,10 +143,12 @@ public class CategoryRepositoryImpl implements CategoryRepository{
                 .where(goodsCategory.goodsCategoryId.eq(goodsCategoryId))
                 .fetchOne();
     }
+
     @Override
     public FeedGoodsCategory save(FeedGoodsCategory feedGoodsCategory) {
         return feedGoodsCategoryJpaRepository.save(feedGoodsCategory);
     }
+
     @Override
     public FeedGenreCategory save(FeedGenreCategory feedGenreCategory) {
         return feedGenreCategoryJpaRepository.save(feedGenreCategory);

@@ -32,7 +32,7 @@ public interface CategoryOpenApiControllerIfs {
                     )
                     })
     })
-    ResponseEntity<PageResponseDto<List<CategoryResponseDto>>> getGoodsCategoryList(
+    ResponseEntity<PageResponseDto<List<CategoryResponseDto>>> getCategoryList(
             @ModelAttribute CategorySearchDto requestDto
     );
 
