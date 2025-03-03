@@ -3,11 +3,13 @@ package com.devgang.marketduck.api.feed.controller;
 
 import com.devgang.marketduck.api.feed.dto.FeedImagePatchDto;
 import com.devgang.marketduck.api.openapi.feed.dto.*;
+import com.devgang.marketduck.domain.feed.dto.FeedLikeResponseDto;
 import com.devgang.marketduck.domain.feed.service.FeedService;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
 import com.devgang.marketduck.dto.Result;
+import com.devgang.marketduck.domain.feed.service.FeedLikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,8 @@ import java.util.List;
 public class FeedController implements FeedControllerIfs{
 
     private final FeedService feedService;
+
+    private final FeedLikeService feedLikeService;
 
     @Override
     @GetMapping
@@ -67,5 +71,23 @@ public class FeedController implements FeedControllerIfs{
     public ResponseEntity<ResponseDto> deleteFeed(User user, Long feedId) {
         feedService.deleteFeed(feedId, user);
         return ResponseEntity.ok(ResponseDto.of(Result.ok()));
+    }
+
+    @Override
+    @PostMapping("/{feedId}/like")
+    public ResponseEntity<ResponseDto<FeedLikeResponseDto>> postFeedLike(Long feedId, User user) {
+        FeedLikeResponseDto response = feedLikeService.toggleLike(feedId, user.getUserId());
+        if (response == null) {
+            return ResponseEntity.ok(ResponseDto.of(Result.ok()));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(response, Result.ok()));
+        }
+    }
+
+    @Override
+    @GetMapping("/likes")
+    public ResponseEntity<PageResponseDto<List<FeedLikeResponseDto>>> getFeedLike(User user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFeedLike'");
     }
 }

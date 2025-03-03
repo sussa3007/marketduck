@@ -1,6 +1,5 @@
 package com.devgang.marketduck.domain.feed.entity;
 
-
 import com.devgang.marketduck.api.openapi.feed.dto.FeedPostRequestDto;
 import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.FeedStatus;
@@ -18,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "feeds")  // 테이블 이름을 "feeds"로 지정
+@Table(name = "feeds") // 테이블 이름을 "feeds"로 지정
 @Getter
 @Setter
 @Builder
@@ -28,7 +27,7 @@ public class Feed extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long feedId;  // ID 필드를 feedId로 변경
+    private Long feedId; // ID 필드를 feedId로 변경
 
     @Column(nullable = false, unique = true)
     private String uuid;
@@ -45,14 +44,12 @@ public class Feed extends Auditable {
     @Column(nullable = false)
     private int viewCount;
 
-
     @Column(nullable = false)
     private int likeCount;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private FeedStatus feedStatus;
-
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -67,7 +64,6 @@ public class Feed extends Auditable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
     // FeedGoodsCategory 연관관계 설정
     @ToString.Exclude
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -78,6 +74,10 @@ public class Feed extends Auditable {
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FeedGenreCategory> feedGenreCategories = new LinkedHashSet<>();
 
+    // FeedLike 연관관계 설정
+    @ToString.Exclude
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FeedLike> feedLikes = new LinkedHashSet<>();
 
     public void addFeedImage(FeedImage feedImage) {
         feedImages.add(feedImage);
@@ -95,8 +95,26 @@ public class Feed extends Auditable {
 
     public void addFeedGenreCategory(FeedGenreCategory feedGenreCategory) {
         feedGenreCategories.add(feedGenreCategory);
+        feedGenreCategory.setFeed(this);
     }
 
+    public void addFeedLike(FeedLike feedLike) {
+        feedLikes.add(feedLike);
+        feedLike.setFeed(this);
+        this.likeCount++; // 찜하기 수 증가
+    }
+
+    public void removeFeedLike(FeedLike feedLike) {
+        feedLikes.remove(feedLike);
+        if (this.likeCount > 0) {
+            this.likeCount--; // 찜하기 수 감소
+        }
+    }
+
+    public boolean isLikedByUser(User user) {
+        return feedLikes.stream()
+                .anyMatch(like -> like.getUser().getUserId().equals(user.getUserId()));
+    }
 
     public static Feed create(FeedPostRequestDto dto, User user) {
         Feed feed = Feed.builder()

@@ -4,8 +4,10 @@ package com.devgang.marketduck.api.feed.controller;
 import com.devgang.marketduck.annotation.UserSession;
 import com.devgang.marketduck.api.feed.dto.FeedImagePatchDto;
 import com.devgang.marketduck.api.openapi.feed.dto.*;
+import com.devgang.marketduck.domain.feed.entity.FeedLike;
 import com.devgang.marketduck.domain.user.entity.User;
 import com.devgang.marketduck.dto.PageResponseDto;
+import com.devgang.marketduck.domain.feed.dto.FeedLikeResponseDto;
 import com.devgang.marketduck.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -120,5 +122,35 @@ public interface FeedControllerIfs {
     ResponseEntity<ResponseDto> deleteFeed(
             @UserSession @Parameter(hidden = true) User user,
             @PathVariable Long feedId
+    );
+
+    /*
+    * Feed 좋아요 추가
+    * */
+    @Operation(summary = "Feed 좋아요 추가/취소(회원)", description = "Feed 좋아요 추가/취소 요청, 좋아요 추가시 좋아요 정보 반환, 좋아요 취소시 빈 객체 반환")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "정상 응답",
+                content = {@Content(mediaType = "application/json"
+                )
+                })
+    })
+    ResponseEntity<ResponseDto<FeedLikeResponseDto>> postFeedLike(
+        @PathVariable Long feedId,
+        @UserSession @Parameter(hidden = true) User user
+    );
+
+
+    /*
+    * Feed 좋아요 조회
+    * */
+    @Operation(summary = "Feed 좋아요 전체 조회(회원)", description = "Feed 좋아요 전체 조회 요청")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "정상 응답",
+                content = {@Content(mediaType = "application/json"
+                )
+                })
+    })
+    ResponseEntity<PageResponseDto<List<FeedLikeResponseDto>>> getFeedLike(
+        @UserSession @Parameter(hidden = true) User user
     );
 }

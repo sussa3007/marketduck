@@ -1,6 +1,5 @@
 package com.devgang.marketduck.domain.user.entity;
 
-
 import com.devgang.marketduck.api.user.dto.UserPatchRequestDto;
 import com.devgang.marketduck.audit.Auditable;
 import com.devgang.marketduck.constant.Authority;
@@ -9,6 +8,7 @@ import com.devgang.marketduck.constant.UserStatus;
 import com.devgang.marketduck.domain.category.entity.UserGenreCategory;
 import com.devgang.marketduck.domain.category.entity.UserGoodsCategory;
 import com.devgang.marketduck.domain.feed.entity.Feed;
+import com.devgang.marketduck.domain.feed.entity.FeedLike;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,7 +33,6 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String nickname;
 
-
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -44,18 +43,17 @@ public class User extends Auditable {
     private String profileImageUrl;
 
     /*
-    * 인증 관련 체크
-    * */
+     * 인증 관련 체크
+     */
     @Column(nullable = false)
     private Boolean emailVerified;
 
     @Column(nullable = false)
     private Boolean phoneVerified;
 
-
     /*
-    * 회원 상태
-    * */
+     * 회원 상태
+     */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
@@ -68,10 +66,8 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -95,9 +91,26 @@ public class User extends Auditable {
 
     public void addUserGenreCategory(UserGenreCategory userGenreCategory) {
         userGenreCategories.add(userGenreCategory);
+        userGenreCategory.setUser(this);
     }
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FeedLike> likedFeeds = new LinkedHashSet<>();
 
+    public void addLikedFeed(FeedLike feedLike) {
+        likedFeeds.add(feedLike);
+        feedLike.setUser(this);
+    }
+
+    public void removeLikedFeed(FeedLike feedLike) {
+        likedFeeds.remove(feedLike);
+    }
+
+    public boolean hasLikedFeed(Feed feed) {
+        return likedFeeds.stream()
+                .anyMatch(like -> like.getFeed().getFeedId().equals(feed.getFeedId()));
+    }
 
     public static User createSocialUser(String email, String nickName, String password, LoginType loginType) {
         return User.builder()
